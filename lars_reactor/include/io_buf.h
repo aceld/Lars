@@ -1,8 +1,5 @@
 #pragma once
 
-//总内存池最大限制 单位是Kb 所以目前限制是 5GB
-#define EXTRA_MEM_LIMIT (5U *1024 *1024) 
-
 /*
     定义一个 buffer存放数据的结构
  * */
@@ -32,8 +29,6 @@ public:
     int length;
     //未处理数据的头部位置索引
     int head;
-
-private:
     //当前io_buf所保存的数据地址
     char *data;
 };

@@ -11,6 +11,8 @@
 #include <errno.h>
 
 #include "tcp_server.h"
+#include "reactor_buf.h"
+
 
 
 //server的构造函数
@@ -89,23 +91,54 @@ void tcp_server::do_accept()
         }
         else {
             //accept succ!
-            //TODO 添加心跳机制
             
-            //TODO 消息队列机制
-            
-            int writed;
-            const char *data = "hello Lars\n";
-            do {
-                writed = write(connfd, data, strlen(data)+1);
-            } while (writed == -1 && errno == EINTR);
+            int ret = 0;
+            input_buf ibuf;
+            output_buf obuf;
 
-            if (writed > 0) {
-                //succ
-                printf("write succ!\n");
-            }
-            if (writed == -1 && errno == EAGAIN) {
-                writed = 0; //不是错误，仅返回0表示此时不可继续写
-            }
+            char *msg = NULL;
+            int msg_len = 0;
+            do { 
+                ret = ibuf.read_data(connfd);
+                if (ret == -1) {
+                    fprintf(stderr, "ibuf read_data error\n");
+                    break;
+                }
+                printf("ibuf.length() = %d\n", ibuf.length());
+
+                
+                //将读到的数据放在msg中
+                msg_len = ibuf.length();
+                msg = (char*)malloc(msg_len);
+                bzero(msg, msg_len);
+                memcpy(msg, ibuf.data(), msg_len);
+                ibuf.pop(msg_len);
+                ibuf.adjust();
+
+                printf("recv data = %s\n", msg);
+
+                //回显数据
+                obuf.send_data(msg, msg_len);
+                while(obuf.length()) {
+                    int write_ret = obuf.write2fd(connfd);
+                    if (write_ret == -1) {
+                        fprintf(stderr, "write connfd error\n");
+                        return;
+                    }
+                    else if(write_ret == 0) {
+                        //不是错误，表示此时不可写
+                        break;
+                    }
+                }
+                 
+
+                free(msg);
+                    
+            } while (ret != 0);     
+
+
+            //Peer is closed
+            close(connfd);
         }
     }
 }

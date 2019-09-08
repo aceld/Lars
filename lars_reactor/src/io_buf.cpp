@@ -4,14 +4,15 @@
 #include "io_buf.h"
 
 //构造，创建一个io_buf对象
-io_buf::io_buf(int size):
-capacity(size), 
-length(0),
-head(0),
-next(NULL) 
+io_buf::io_buf(int size)
 {
-   data = new char[size];
-   assert(data);
+    capacity = size; 
+    length = 0;
+    head = 0;
+    next = 0;
+
+    data = new char[size];
+    assert(data);
 }
 
 //清空数据

@@ -16,6 +16,9 @@ enum MEM_CAP {
 };
 
 
+//总内存池最大限制 单位是Kb 所以目前限制是 5GB
+#define EXTRA_MEM_LIMIT (5U *1024 *1024) 
+
 /*
  *  定义buf内存池
  *  设计为单例
