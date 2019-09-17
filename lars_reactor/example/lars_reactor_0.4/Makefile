@@ -6,7 +6,8 @@ LIB=-L../../lib -llreactor -lpthread
 OBJS = $(addsuffix .o, $(basename $(wildcard *.cc)))
 
 all:
-	$(CXX) -o lars_reactor $(CFLAGS)  lars_reactor.cpp $(INC) $(LIB)
+	$(CXX) -o server $(CFLAGS)  server.cpp $(INC) $(LIB)
+	$(CXX) -o client $(CFLAGS)  client.cpp $(INC) $(LIB)
 
 clean:
-	-rm -f *.o lars_reactor
+	-rm -f *.o server client

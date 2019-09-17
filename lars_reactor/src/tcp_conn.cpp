@@ -62,7 +62,7 @@ void tcp_conn::do_read()
     }
     else if ( ret == 0) {
         //对端正常关闭
-        printf("connection closed by perr\n");
+        printf("connection closed by peer\n");
         clean_conn();
         return ;
     }
@@ -75,7 +75,7 @@ void tcp_conn::do_read()
         //2.1 读取msg_head头部，固定长度MESSAGE_HEAD_LEN    
         memcpy(&head, ibuf.data(), MESSAGE_HEAD_LEN);
         if(head.msglen > MESSAGE_LENGTH_LIMIT || head.msglen < 0) {
-            fprintf(stderr, "data format error, need close\n");
+            fprintf(stderr, "data format error, need close, msglen = %d\n", head.msglen);
             this->clean_conn();
             break;
         }
@@ -96,6 +96,9 @@ void tcp_conn::do_read()
 
         //回显业务
         callback_busi(ibuf.data(), head.msglen, head.msgid, NULL, this);
+
+        //消息体处理完了,往后便宜msglen长度
+        ibuf.pop(head.msglen);
     }
 
     ibuf.adjust();
@@ -136,6 +139,7 @@ void tcp_conn::do_write()
 //发送消息的方法
 int tcp_conn::send_message(const char *data, int msglen, int msgid)
 {
+    printf("server send_message: %s:%d, msgid = %d\n", data, msglen, msgid);
     bool active_epollout = false; 
     if(obuf.length() == 0) {
         //如果现在已经数据都发送完了，那么是一定要激活写事件的

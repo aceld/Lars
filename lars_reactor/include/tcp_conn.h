@@ -1,7 +1,6 @@
 #pragma once
 
 #include "reactor_buf.h"
-#include "net_connection.h"
 #include "event_loop.h"
 
 //一个tcp的连接信息

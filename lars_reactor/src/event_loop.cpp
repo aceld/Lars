@@ -139,7 +139,7 @@ void event_loop::del_io_event(int fd, int mask)
     int &o_mask = it->second.mask;
     //修正mask
     o_mask = o_mask & (~mask);
-    
+
     if (o_mask == 0) {
         //如果修正之后 mask为0，则删除
         this->del_io_event(fd);

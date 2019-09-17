@@ -192,12 +192,12 @@ void tcp_server::do_accept()
         }
         else {
             //accept succ!
-            //this->_loop->add_io_event(connfd, server_rd_callback, EPOLLIN, &msg);
             tcp_conn *conn = new tcp_conn(connfd, _loop);
             if (conn == NULL) {
                 fprintf(stderr, "new tcp_conn error\n");
                 exit(1);
             }
+            printf("get new connection succ!\n");
             break;
         }
     }
