@@ -1,4 +1,4 @@
-# Lars系统开发
+# Lars
 (**L**oad balance **A**nd **R**emote service schedule **S**ystem)
 
 ---
