@@ -1,7 +1,7 @@
 # Lars
 (**L**oad balance **A**nd **R**emote service schedule **S**ystem)
 
-[![License](https://img.shields.io/badge/License-MIT%20-blue.svg)](LICENSE) [![Gitter](https://img.shields.io/badge/在线交流-Gitter-green.svg)](https://gitter.im/zinx_go/community) 
+[![License](https://img.shields.io/badge/License-MIT%20-blue.svg)](LICENSE) [![Gitter](https://img.shields.io/badge/在线交流-Gitter-green.svg)](https://gitter.im/lars_cpp/community) 
 
 ---
 **【Lars Golang版本移植志愿者招募中】**
