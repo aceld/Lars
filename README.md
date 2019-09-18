@@ -1,7 +1,7 @@
 # Lars
 (**L**oad balance **A**nd **R**emote service schedule **S**ystem)
 
-[![License](https://img.shields.io/badge/License-MIT%20-blue.svg)](LICENSE) [![Gitter](https://img.shields.io/badge/在线交流-Gitter-green.svg)](https://gitter.im/zinx_go/community) [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7) 
+[![License](https://img.shields.io/badge/License-MIT%20-blue.svg)](LICENSE) [![Gitter](https://img.shields.io/badge/在线交流-Gitter-green.svg)](https://gitter.im/zinx_go/community) 
 
 ---
 **【Lars Golang版本移植志愿者招募中】**
@@ -23,11 +23,12 @@ QQ技术群:[**Go与区块链**]: 135991862
 `g++`:  (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0 版本及以上
 
 # 开发技术文档及教程同步更新中...
+[![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
 
-[![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7) 
 ## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7) 
 
-# 一、概述：
+
+## 一、概述：
 
 Lars是一个简单、易用、高性能的服务间远程调用管理、调度、负载均衡系统。
 
