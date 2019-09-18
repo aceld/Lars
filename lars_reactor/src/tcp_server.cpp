@@ -14,90 +14,50 @@
 #include "tcp_conn.h"
 #include "reactor_buf.h"
 
-#if 0
+// ==== 链接资源管理   ====
+//全部已经在线的连接信息
+tcp_conn ** tcp_server::conns = NULL;
 
-//临时的收发消息
-struct message{
-    char data[m4K];
-    char len;
-};
-struct message msg;
+//链接文件描述符最大容量
+int tcp_server::_conns_cap = 0;
 
-void server_rd_callback(event_loop *loop, int fd, void *args);
-void server_wt_callback(event_loop *loop, int fd, void *args);
+//最大容量链接个数;
+int tcp_server::_max_conns = 0;      
+
+//当前链接刻度
+int tcp_server::_curr_conns = 0;
+
+//保护_curr_conns刻度修改的锁
+pthread_mutex_t tcp_server::_conns_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
-//server read_callback
-void server_rd_callback(event_loop *loop, int fd, void *args)
+//新增一个新建的连接
+void tcp_server::increase_conn(int connfd, tcp_conn *conn)
 {
-    int ret = 0;
-
-    struct message *msg = (struct message*)args;
-    input_buf ibuf;
-
-    ret = ibuf.read_data(fd);
-    if (ret == -1) {
-        fprintf(stderr, "ibuf read_data error\n");
-        //删除事件
-        loop->del_io_event(fd);
-        
-        //对端关闭
-        close(fd);
-
-        return;
-    }
-    if (ret == 0) {
-        //删除事件
-        loop->del_io_event(fd);
-        
-        //对端关闭
-        close(fd);
-        return ;
-    }
-
-    printf("ibuf.length() = %d\n", ibuf.length());
-    
-    //将读到的数据放在msg中
-    msg->len = ibuf.length();
-    bzero(msg->data, msg->len);
-    memcpy(msg->data, ibuf.data(), msg->len);
-
-    ibuf.pop(msg->len);
-    ibuf.adjust();
-
-    printf("recv data = %s\n", msg->data);
-
-    
-    //删除读事件，添加写事件
-    loop->del_io_event(fd, EPOLLIN);
-    loop->add_io_event(fd, server_wt_callback, EPOLLOUT, msg);
+    pthread_mutex_lock(&_conns_mutex);
+    conns[connfd] = conn;
+    _curr_conns++;
+    pthread_mutex_unlock(&_conns_mutex);
 }
 
-//server write_callback
-void server_wt_callback(event_loop *loop, int fd, void *args)
+//减少一个断开的连接
+void tcp_server::decrease_conn(int connfd)
 {
-    struct message *msg = (struct message*)args;
-    output_buf obuf;
-
-    //回显数据
-    obuf.send_data(msg->data, msg->len);
-    while(obuf.length()) {
-        int write_ret = obuf.write2fd(fd);
-        if (write_ret == -1) {
-            fprintf(stderr, "write connfd error\n");
-            return;
-        }
-        else if(write_ret == 0) {
-            //不是错误，表示此时不可写
-            break;
-        }
-    }
-
-    //删除写事件，添加读事件
-    loop->del_io_event(fd, EPOLLOUT);
-    loop->add_io_event(fd, server_rd_callback, EPOLLIN, msg);
+    pthread_mutex_lock(&_conns_mutex);
+    conns[connfd] = NULL;
+    _curr_conns--;
+    pthread_mutex_unlock(&_conns_mutex);
 }
-#endif 
+
+//得到当前链接的刻度
+void tcp_server::get_conn_num(int *curr_conn)
+{
+    pthread_mutex_lock(&_conns_mutex);
+    *curr_conn = _curr_conns;
+    pthread_mutex_unlock(&_conns_mutex);
+}
+
+// =======================
 
 
 //listen fd 客户端有新链接请求过来的回调函数
@@ -158,7 +118,16 @@ tcp_server::tcp_server(event_loop *loop, const char *ip, uint16_t port)
     //5 将_sockfd添加到event_loop中
     _loop = loop;
 
-    //6 注册_socket读事件-->accept处理
+    //6 创建链接管理
+    _max_conns = MAX_CONNS;
+    //创建链接信息数组
+    conns = new tcp_conn*[_max_conns+3];//3是因为stdin,stdout,stderr 已经被占用，再新开fd一定是从3开始,所以不加3就会栈溢出
+    if (conns == NULL) {
+        fprintf(stderr, "new conns[%d] error\n", _max_conns);
+        exit(1);
+    }
+
+    //7 注册_socket读事件-->accept处理
     _loop->add_io_event(_sockfd, accept_callback, EPOLLIN, this);
 }
 
@@ -192,12 +161,24 @@ void tcp_server::do_accept()
         }
         else {
             //accept succ!
-            tcp_conn *conn = new tcp_conn(connfd, _loop);
-            if (conn == NULL) {
-                fprintf(stderr, "new tcp_conn error\n");
-                exit(1);
+            int cur_conns;
+            get_conn_num(&cur_conns);
+
+            //1 判断链接数量
+            if (cur_conns >= _max_conns) {
+                fprintf(stderr, "so many connections, max = %d\n", _max_conns);
+                close(connfd);
             }
-            printf("get new connection succ!\n");
+            else {
+
+                tcp_conn *conn = new tcp_conn(connfd, _loop);
+                if (conn == NULL) {
+                    fprintf(stderr, "new tcp_conn error\n");
+                    exit(1);
+                }
+                printf("get new connection succ!\n");
+            }
+            
             break;
         }
     }
@@ -206,5 +187,8 @@ void tcp_server::do_accept()
 //链接对象释放的析构
 tcp_server::~tcp_server()
 {
+    //将全部的事件删除
+    _loop->del_io_event(_sockfd);
+    //关闭套接字
     close(_sockfd);
 }

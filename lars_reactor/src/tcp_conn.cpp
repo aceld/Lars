@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "tcp_conn.h"
+#include "tcp_server.h"
 #include "message.h"
 
 
@@ -47,7 +48,7 @@ tcp_conn::tcp_conn(int connfd, event_loop *loop)
     _loop->add_io_event(_connfd, conn_rd_callback, EPOLLIN, this);
 
     //4 将该链接集成到对应的tcp_server中
-    //TODO
+    tcp_server::increase_conn(_connfd, this);
 }
 
 //处理读业务
@@ -181,7 +182,7 @@ void tcp_conn::clean_conn()
 {
     //链接清理工作
     //1 将该链接从tcp_server摘除掉    
-    //TODO 
+    tcp_server::decrease_conn(_connfd);
     //2 将该链接从event_loop中摘除
     _loop->del_io_event(_connfd);
     //3 buf清空
