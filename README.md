@@ -24,7 +24,8 @@ QQ技术群:[**Go与区块链**]: 135991862
 
 # 开发技术文档及教程同步更新中...
 
-[《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7)
+[![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7) 
+## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7) 
 
 # 一、概述：
 
