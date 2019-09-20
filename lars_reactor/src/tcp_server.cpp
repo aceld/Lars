@@ -14,12 +14,10 @@
 #include "tcp_conn.h"
 #include "reactor_buf.h"
 
+
 // ==== 链接资源管理   ====
 //全部已经在线的连接信息
 tcp_conn ** tcp_server::conns = NULL;
-
-//链接文件描述符最大容量
-int tcp_server::_conns_cap = 0;
 
 //最大容量链接个数;
 int tcp_server::_max_conns = 0;      
@@ -29,6 +27,9 @@ int tcp_server::_curr_conns = 0;
 
 //保护_curr_conns刻度修改的锁
 pthread_mutex_t tcp_server::_conns_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+// ==== 消息分发路由   ===
+msg_router tcp_server::router;
 
 
 //新增一个新建的连接
@@ -155,7 +156,7 @@ void tcp_server::do_accept()
                 break;
             }
             else {
-                fprintf(stderr, "accept error");
+                fprintf(stderr, "accept error\n");
                 exit(1);
             }
         }

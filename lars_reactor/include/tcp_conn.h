@@ -2,9 +2,10 @@
 
 #include "reactor_buf.h"
 #include "event_loop.h"
+#include "net_connection.h"
 
 //一个tcp的连接信息
-class tcp_conn
+class tcp_conn : public net_connection
 {
 public:
     //初始化tcp_conn

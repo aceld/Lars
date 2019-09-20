@@ -20,10 +20,10 @@ static void read_callback(event_loop *loop, int fd, void *args)
     cli->do_read();
 }
 
-tcp_client::tcp_client(event_loop *loop, const char *ip, unsigned short port, const char *name):_ibuf(4194304),_obuf(4194304)
+tcp_client::tcp_client(event_loop *loop, const char *ip, unsigned short port, const char *name):_obuf(4194304),_ibuf(4194304)
 {
     _sockfd = -1;
-    _msg_callback = NULL;
+    //_msg_callback = NULL;
     _name = name;
     _loop = loop;
     
@@ -60,6 +60,10 @@ static void connection_delay(event_loop *loop, int fd, void *args)
         const char *msg = "hello lars!";
         int msgid = 1;
         cli->send_message(msg, strlen(msg), msgid);
+
+        const char *msg2 = "hello Aceld!";
+        msgid = 2;
+        cli->send_message(msg2, strlen(msg2), msgid);
 
 
         loop->add_io_event(fd, read_callback, EPOLLIN, cli);
@@ -224,9 +228,11 @@ int tcp_client::do_read()
         _ibuf.pop(MESSAGE_HEAD_LEN);
 
         //3. 交给业务函数处理
-        if (_msg_callback != NULL) {
-            this->_msg_callback(_ibuf.data + _ibuf.head, length, msgid, this, NULL);
-        }
+        //if (_msg_callback != NULL) {
+            //this->_msg_callback(_ibuf.data + _ibuf.head, length, msgid, this, NULL);
+        //}
+        // 消息路由分发
+        this->_router.call(msgid, length, _ibuf.data + _ibuf.head, this);
     
 
         //数据区域处理完毕

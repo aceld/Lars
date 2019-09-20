@@ -87,7 +87,6 @@ void tcp_conn::do_read()
         }
 
         //2.2 再根据头长度读取数据体，然后针对数据体处理 业务
-        //TODO 添加包路由模式
         
         //头部处理完了，往后偏移MESSAGE_HEAD_LEN长度
         ibuf.pop(MESSAGE_HEAD_LEN);
@@ -95,8 +94,12 @@ void tcp_conn::do_read()
         //处理ibuf.data()业务数据
         printf("read data: %s\n", ibuf.data());
 
-        //回显业务
-        callback_busi(ibuf.data(), head.msglen, head.msgid, NULL, this);
+        //消息包路由模式
+        tcp_server::router.call(head.msgid, head.msglen, ibuf.data(), this);
+        
+        ////回显业务
+        //callback_busi(ibuf.data(), head.msglen, head.msgid, NULL, this);
+        
 
         //消息体处理完了,往后便宜msglen长度
         ibuf.pop(head.msglen);
