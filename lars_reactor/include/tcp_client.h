@@ -47,6 +47,29 @@ public:
     }
     
 
+    //----- 链接创建/销毁回调Hook ----
+    //设置链接的创建hook函数
+    void set_conn_start(conn_callback cb, void *args = NULL) 
+    {
+        _conn_start_cb = cb;
+        _conn_start_cb_args = args;
+    }
+
+    //设置链接的销毁hook函数
+    void set_conn_close(conn_callback cb, void *args = NULL) {
+        _conn_close_cb = cb;
+        _conn_close_cb_args = args;
+    }
+    
+    //创建链接之后要触发的 回调函数
+    conn_callback _conn_start_cb;     
+    void * _conn_start_cb_args;
+
+    //销毁链接之前要触发的 回调函数
+    conn_callback _conn_close_cb;
+    void * _conn_close_cb_args;
+    // ---------------------------------
+
     bool connected; //链接是否创建成功
     //server端地址
     struct sockaddr_in _server_addr;
@@ -66,5 +89,4 @@ private:
 
     //当前客户端的名称 用户记录日志
     const char *_name;
-
 };

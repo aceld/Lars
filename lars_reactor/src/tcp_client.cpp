@@ -20,7 +20,13 @@ static void read_callback(event_loop *loop, int fd, void *args)
     cli->do_read();
 }
 
-tcp_client::tcp_client(event_loop *loop, const char *ip, unsigned short port, const char *name):_obuf(4194304),_ibuf(4194304)
+tcp_client::tcp_client(event_loop *loop, const char *ip, unsigned short port, const char *name):
+    _conn_start_cb(NULL),
+    _conn_start_cb_args(NULL),
+    _conn_close_cb(NULL),
+    _conn_close_cb_args(NULL),
+    _obuf(4194304),
+    _ibuf(4194304)
 {
     _sockfd = -1;
     //_msg_callback = NULL;
@@ -53,18 +59,10 @@ static void connection_delay(event_loop *loop, int fd, void *args)
 
         printf("connect %s:%d succ!\n", inet_ntoa(cli->_server_addr.sin_addr), ntohs(cli->_server_addr.sin_port));
 
-
-
-
-        //建立连接成功之后，主动发送send_message
-        const char *msg = "hello lars!";
-        int msgid = 1;
-        cli->send_message(msg, strlen(msg), msgid);
-
-        const char *msg2 = "hello Aceld!";
-        msgid = 2;
-        cli->send_message(msg2, strlen(msg2), msgid);
-
+        //调用开发者注册的创建链接Hook函数
+        if (cli->_conn_start_cb != NULL) {
+            cli->_conn_start_cb(cli, cli->_conn_start_cb_args);
+        }
 
         loop->add_io_event(fd, read_callback, EPOLLIN, cli);
 
@@ -99,7 +97,11 @@ void tcp_client::do_connect()
         
         connected = true; 
 
-        //这里由开发者手动调用send_message方法发包，而不是自动发包
+        //调用开发者客户端注册的创建链接之后的hook函数
+        if (_conn_start_cb != NULL) {
+            _conn_start_cb(this, _conn_start_cb_args);
+        }
+        
 
         //注册读回调
         _loop->add_io_event(_sockfd, read_callback, EPOLLIN, this);
@@ -293,6 +295,11 @@ void tcp_client::clean_conn()
     }
 
     connected = false;
+
+    //调用开发者注册的销毁链接之前触发的Hook
+    if (_conn_close_cb != NULL) {
+        _conn_close_cb(this, _conn_close_cb_args);
+    }
 
     //重新连接
     this->do_connect();
