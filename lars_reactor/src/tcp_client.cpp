@@ -29,7 +29,6 @@ tcp_client::tcp_client(event_loop *loop, const char *ip, unsigned short port, co
     _ibuf(4194304)
 {
     _sockfd = -1;
-    //_msg_callback = NULL;
     _name = name;
     _loop = loop;
     
@@ -229,13 +228,8 @@ int tcp_client::do_read()
         //头部读取完毕
         _ibuf.pop(MESSAGE_HEAD_LEN);
 
-        //3. 交给业务函数处理
-        //if (_msg_callback != NULL) {
-            //this->_msg_callback(_ibuf.data + _ibuf.head, length, msgid, this, NULL);
-        //}
-        // 消息路由分发
+        //3. 消息路由分发
         this->_router.call(msgid, length, _ibuf.data + _ibuf.head, this);
-    
 
         //数据区域处理完毕
         _ibuf.pop(length);
