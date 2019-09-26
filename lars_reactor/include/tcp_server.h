@@ -68,9 +68,6 @@ public:
     static void *conn_close_cb_args;
 
 private:
-    //TODO 
-    //从配置文件中读取
-#define MAX_CONNS 10000
     static int _max_conns;          //最大client链接个数
     static int _curr_conns;         //当前链接刻度
     static pthread_mutex_t _conns_mutex; //保护_curr_conns刻度修改的锁
