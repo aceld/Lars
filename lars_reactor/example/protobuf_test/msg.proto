@@ -1,0 +1,10 @@
+syntax="proto3";
+
+package protobuf_test; 
+
+message helloworld 
+{ 
+    int32     id = 1;  // ID   
+    string    str = 2;  // str  
+    int32     opt = 3;  //optional field 
+}
