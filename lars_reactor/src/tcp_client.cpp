@@ -271,7 +271,7 @@ int tcp_client::do_write()
 
     if (_obuf.length == 0) {
         //已经写完，删除写事件
-        printf("do write over, del EPOLLOUT\n");
+        //printf("do write over, del EPOLLOUT\n");
         this->_loop->del_io_event(_sockfd, EPOLLOUT);
     }
 
