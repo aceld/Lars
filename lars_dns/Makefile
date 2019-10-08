@@ -10,13 +10,13 @@ LARS_REACTOR_LIB=$(LARS_REACTOR)/lib  -llreactor
 
 MYSQL=$(BASE)/mysql-connector-c
 MYSQL_H=$(MYSQL)/include
-MYSQL_LIB=$(MYSQL)/lib -lmysqlclient
+MYSQL_LIB=$(MYSQL)/lib/libmysqlclient.a
 
-OTHER_LIB = -lpthread
+OTHER_LIB = -lpthread -ldl
 SRC= ./src
 INC= -I./include -I$(BASE_H) -I$(LARS_REACTOR_H) -I$(MYSQL_H)
 
-LIB= -L$(LARS_REACTOR_LIB) -L$(MYSQL_LIB) $(OTHER_LIB) 
+LIB= $(MYSQL_LIB) -L$(LARS_REACTOR_LIB) $(OTHER_LIB) 
 
 
 OBJS = $(addsuffix .o, $(basename $(wildcard $(SRC)/*.cpp)))

@@ -1,5 +1,5 @@
 #include "lars_reactor.h"
-#include "mysql.h"
+#include "dns_route.h"
 
 int main(int argc, char **argv)
 {
@@ -16,9 +16,9 @@ int main(int argc, char **argv)
 
     //注册路由业务
     
-    //测试mysql接口
-    MYSQL dbconn;
-    mysql_init(&dbconn);
+
+    //测试route加载数据库
+    Route::instance();
 
     //开始事件监听    
     printf("lars dns service ....\n");
