@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package lars;
+
+/* Lars系统的消息ID */
+enum MessageId {
+    ID_UNKNOW                = 0;  //proto3 enum第一个属性必须是0，用来占位
+    ID_GetRouteRequest       = 1;  //向DNS请求Route对应的关系的消息ID
+    ID_GetRouteResponse      = 2;  //DNS回复的Route信息的消息ID
+}
+
+//一个管理的主机的信息
+message HostInfo {
+    int32 ip = 1;
+    int32 port = 2;
+}
+
+//请求lars-dns route信息的消息内容
+message GetRouteRequest {
+    int32 modid = 1; 
+    int32 cmdid = 2;
+}
+
+//lars-dns 回复的route信息消息内容
+message GetRouteResponse {
+    int32 modid = 1;    
+    int32 cmdid = 2;
+    repeated HostInfo host = 3;
+}

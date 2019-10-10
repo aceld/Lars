@@ -30,6 +30,10 @@ public:
         return _instance;
     }
 
+    //获取modid/cmdid对应的host信息
+    host_set get_hosts(int modid, int cmdid);
+
+
     //链接数据库
     void connect_db();
 

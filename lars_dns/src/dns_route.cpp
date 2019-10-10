@@ -91,3 +91,23 @@ void Route::build_maps()
 
     mysql_free_result(result);
 }
+
+
+//获取modid/cmdid对应的host信息
+host_set Route::get_hosts(int modid, int cmdid)
+{
+    host_set hosts;     
+
+    //组装key
+    uint64_t key = ((uint64_t)modid << 32) + cmdid;
+
+    pthread_rwlock_rdlock(&_map_lock);
+    route_map_it it = _data_pointer->find(key);
+    if (it != _data_pointer->end()) {
+        //找到对应的ip + port对
+        hosts = it->second;
+    }
+    pthread_rwlock_unlock(&_map_lock);
+
+    return hosts;
+}
