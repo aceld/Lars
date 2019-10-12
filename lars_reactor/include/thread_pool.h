@@ -13,6 +13,8 @@ public:
     //获取一个thead
     thread_queue<task_msg>* get_thread();
 
+    //发送一个task任务给thread_pool里的全部thread
+    void send_task(task_func func, void *args = NULL);
 private:
 
     //_queues是当前thread_pool全部的消息任务队列头指针

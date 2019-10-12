@@ -24,6 +24,11 @@ public:
         router.register_msg_router(msgid, cb, user_data);
     }
 
+    //获取当前server的线程池
+    thread_pool *thread_poll() {
+        return _thread_pool;
+    }
+
 private: 
     //基础信息
     int _sockfd; //套接字
