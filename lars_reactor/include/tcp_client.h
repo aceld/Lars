@@ -20,6 +20,9 @@ public:
     //发送message方法
     int send_message(const char *data, int msglen, int msgid);
 
+    //得到fd
+    int get_fd();
+
     //创建链接
     void do_connect();
 

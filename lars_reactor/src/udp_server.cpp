@@ -18,6 +18,8 @@ void read_callback(event_loop *loop, int fd, void *args)
     server->do_read();
 }
 
+
+
 void udp_server::do_read()
 {
     while (true) {
@@ -92,6 +94,11 @@ udp_server::udp_server(event_loop *loop, const char *ip, uint16_t port)
 
     _loop->add_io_event(_sockfd, read_callback, EPOLLIN, this);
     
+}
+
+int udp_server::get_fd()
+{
+    return this->_sockfd;
 }
 
 int udp_server::send_message(const char *data, int msglen, int msgid)

@@ -43,6 +43,11 @@ tcp_client::tcp_client(event_loop *loop, const char *ip, unsigned short port, co
     this->do_connect();
 }
 
+int tcp_client::get_fd()
+{
+    return _sockfd;
+}
+
 //判断链接是否是创建链接，主要是针对非阻塞socket 返回EINPROGRESS错误
 static void connection_delay(event_loop *loop, int fd, void *args)
 {

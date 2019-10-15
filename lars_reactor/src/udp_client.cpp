@@ -45,6 +45,11 @@ udp_client::udp_client(event_loop *loop, const char *ip, uint16_t port)
     _loop->add_io_event(_sockfd, read_callback, EPOLLIN, this);
 }
 
+int udp_client::get_fd()
+{
+    return _sockfd;
+}
+
 udp_client::~udp_client()
 {
     _loop->del_io_event(_sockfd);

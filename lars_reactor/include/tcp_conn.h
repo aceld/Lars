@@ -23,6 +23,9 @@ public:
     //发送消息的方法
     int send_message(const char *data, int msglen, int msgid);
 
+    //得到fd
+    int get_fd();
+
 private:
     //当前链接的fd
     int _connfd;

@@ -15,6 +15,9 @@ public:
     //注册消息路由回调函数
     void add_msg_router(int msgid, msg_callback* cb, void *user_data = NULL);
 
+    //得到fd
+    int get_fd();
+
     ~udp_server();
 
     //处理消息业务

@@ -12,6 +12,8 @@ public:
 
     void add_msg_router(int msgid, msg_callback *cb, void *user_data = NULL);
 
+    int get_fd();
+
     virtual int send_message(const char *data, int msglen, int msgid);
 
     //处理消息
