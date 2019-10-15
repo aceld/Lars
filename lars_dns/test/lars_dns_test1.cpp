@@ -46,7 +46,7 @@ void on_connection(net_connection *conn, void *args)
     lars::GetRouteRequest req;
 
     req.set_modid(1);
-    req.set_cmdid(2);
+    req.set_cmdid(1);
 
     std::string requestString;
 
@@ -73,12 +73,14 @@ void deal_get_route(const char *data, uint32_t len, int msgid, net_connection *n
     }
     
     //再请求
+    /*
     lars::GetRouteRequest req;
     req.set_modid(rsp.modid());
     req.set_cmdid(rsp.cmdid());
     std::string requestString;
     req.SerializeToString(&requestString);
     net_conn->send_message(requestString.c_str(), requestString.size(), lars::ID_GetRouteRequest);
+    */
 }
 
 

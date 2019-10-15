@@ -39,6 +39,24 @@ public:
 
     //构建map
     void build_maps();
+
+    //获取当前Route版本号
+    int load_version();
+
+    //加载RouteData到_temp_pointer
+    int load_route_data();
+
+    //将temp_pointer的数据更新到data_pointer
+    void swap();
+
+    //加载RouteChange得到修改的modid/cmdid
+    //将结果放在vector中
+    void load_changes(std::vector<uint64_t>& change_list);
+
+    //将RouteChange
+    //删除RouteChange的全部修改记录数据,remove_all为全部删除
+    //否则默认删除当前版本之前的全部修改
+    void remove_changes(bool remove_all = false);
     
 private:
     //构造函数私有化
@@ -60,4 +78,10 @@ private:
     route_map *_data_pointer; //指向RouterDataMap_A 当前的关系map
     route_map *_temp_pointer; //指向RouterDataMap_B 临时的关系map
     pthread_rwlock_t _map_lock;
+
+    //当前Route的版本号
+    long _version;
 };
+
+//backendThread main
+void *check_route_changes(void *args);

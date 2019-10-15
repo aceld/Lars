@@ -36,4 +36,4 @@ $(TARGET): $(OBJS)
 .PHONY: clean
 
 clean:
-	-rm -f src/*.o $(TARGET)
+	-rm -f src/*.o  $(PROTO)/lars.pb.o $(TARGET)
