@@ -7,6 +7,7 @@ enum MessageId {
     ID_UNKNOW                = 0;  //proto3 enum第一个属性必须是0，用来占位
     ID_GetRouteRequest       = 1;  //向DNS请求Route对应的关系的消息ID
     ID_GetRouteResponse      = 2;  //DNS回复的Route信息的消息ID
+    ID_ReportStatusRequest   = 3;  //上报host调用状态信息请求消息ID
 }
 
 //一个管理的主机的信息
@@ -26,4 +27,22 @@ message GetRouteResponse {
     int32 modid = 1;    
     int32 cmdid = 2;
     repeated HostInfo host = 3;
+}
+
+
+message HostCallResult {
+    int32 ip = 1;           //主机ip
+    int32 port = 2;         //主机端口
+    uint32 succ = 3;        //调度成功
+    uint32 err = 4;         //调度失败
+    bool overload = 5;      //是否过载
+}
+
+//上报 负载均衡 调度数据 给 lars_reporter 的消息内容
+message ReportStatusRequest {
+    int32 modid = 1;
+    int32 cmdid = 2;
+    int32 caller = 3;
+    repeated HostCallResult results = 4; 
+    uint32 ts   = 5;
 }
