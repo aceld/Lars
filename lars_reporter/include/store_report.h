@@ -14,3 +14,5 @@ private:
     MYSQL _db_conn;
 };
 
+
+void *store_main(void*);
