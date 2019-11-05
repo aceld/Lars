@@ -29,6 +29,25 @@ void new_dns_request(event_loop *loop, int fd, void *args)
 
 }
 
+
+/*
+ * 处理远程dns service回复的modid/cmdid对应的路由信息
+ * */
+void deal_recv_route(const char *data, uint32_t len, int msgid, net_connection *net_conn, void *user_data)
+{
+    lars::GetRouteResponse rsp;
+
+    //解析远程消息到proto结构体中
+    rsp.ParseFromArray(data, len);
+
+    int modid = rsp.modid();
+    int cmdid = rsp.cmdid();
+    int index = (modid+cmdid)%3;
+
+    // 将该modid/cmdid交给一个route_lb处理 将rsp中的hostinfo集合加入到对应的route_lb中
+    r_lb[index]->update_host(modid, cmdid, rsp);
+}
+
 void *dns_client_thread(void* args)
 {
     printf("dns client thread start\n");
@@ -41,11 +60,16 @@ void *dns_client_thread(void* args)
     //2 创建客户端
     tcp_client client(&loop, ip.c_str(), port, "dns client");
 
+
     //3 将thread_queue消息回调事件，绑定到loop中
     dns_queue->set_loop(&loop);
     dns_queue->set_callback(new_dns_request, &client);
 
-    //4 启动事件监听
+
+    //4 设置当收到dns service回执的消息ID_GetRouteResponse处理函数
+    client.add_msg_router(lars::ID_GetRouteResponse, deal_recv_route);
+
+    //启动事件监听
     loop.event_process(); 
 
     return NULL;

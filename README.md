@@ -120,9 +120,9 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 
 - `cmdid`：标识具体服务内容，如：“批量获取直播列表”
 
-  ​	业务代码利用modid,cmdid，就可以调用对应的远程服务一个Lars系统包含一个DNSService，一个Report Service，以及部署于每个服务器的LoadBalance Agent，业务代码通过API与ELB系统进行交互
+  ​	业务代码利用modid,cmdid，就可以调用对应的远程服务一个Lars系统包含一个DNSService，一个Report Service，以及部署于每个服务器的LoadBalance Agent，业务代码通过API与Lars系统进行交互
 
-**API** ：根据自身需要的`modid,cmdid`，向ELB系统获取节点、汇报节点调用结果；提供`C++`、`Java`、`Python`接口
+**API** ：根据自身需要的`modid,cmdid`，向Lars系统获取节点、汇报节点调用结果；提供`C++`、`Java`、`Python`接口
 
 **LoadBalance Agent**：运行于每个服务器上，负责为此服务器上的业务提供节点获取、节点状态汇报、路由管理、负载调度等核心功能
 
