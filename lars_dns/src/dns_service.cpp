@@ -56,6 +56,7 @@ void get_route(const char *data, uint32_t len, int msgid, net_connection *conn, 
         host.set_ip((uint32_t)(ip_port >> 32));
         host.set_port((int)(ip_port));
         rsp.add_host()->CopyFrom(host);
+        std::cout << "host ip = " << (uint32_t)host.ip() << " port = " << host.port() << std::endl;
     }
     
     //5. 发送给客户端

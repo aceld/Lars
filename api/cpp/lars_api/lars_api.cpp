@@ -5,12 +5,13 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-lars_client::lars_client()
+lars_client::lars_client():_seqid(0)
 {
     printf("lars_client()\n");
     //1 初始化服务器地址
     struct sockaddr_in servaddr;
     bzero(&servaddr, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
     //默认的ip地址是本地，因为是API和agent应该部署于同一台主机上
     inet_aton("127.0.0.1", &servaddr.sin_addr);
 
@@ -45,7 +46,7 @@ lars_client::~lars_client()
 
 
 //lars 系统获取host信息 得到可用host的ip和port
-int lars_client::get_host(int modid, int cmdid, std::string& ip, int &port)
+int lars_client::get_host(int modid, int cmdid, std::string &ip, int &port)
 {
     //从本地agent service获取 host信息  
     uint32_t seq = _seqid++;  
@@ -95,8 +96,8 @@ int lars_client::get_host(int modid, int cmdid, std::string& ip, int &port)
 
         //消息体 
         ret = rsp.ParseFromArray(read_buf + MESSAGE_HEAD_LEN, message_len - MESSAGE_HEAD_LEN);
-        if (ret != 0) {
-            fprintf(stderr, "message format error: head.msglen = %d, message_len = %d, head msgid = %d, ID_GetHostResponse = %d\n", head.msglen, message_len, head.msgid, lars::ID_GetHostResponse);
+        if (!ret) {
+            fprintf(stderr, "message format error: head.msglen = %d, message_len = %d, message_len - MESSAGE_HEAD_LEN = %d, head msgid = %d, ID_GetHostResponse = %d\n", head.msglen, message_len, message_len-MESSAGE_HEAD_LEN, head.msgid, lars::ID_GetHostResponse);
             return lars::RET_SYSTEM_ERROR;
         }
     } while (rsp.seq() < seq);
@@ -111,6 +112,10 @@ int lars_client::get_host(int modid, int cmdid, std::string& ip, int &port)
     if (rsp.retcode() == 0) {
         lars::HostInfo host = rsp.host();
 
+        struct in_addr inaddr;
+        inaddr.s_addr = host.ip();
+        ip = inet_ntoa(inaddr);
+        port = host.port();
     }
 
     return rsp.retcode();//lars::RET_SUCC

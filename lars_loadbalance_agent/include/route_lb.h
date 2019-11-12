@@ -15,7 +15,7 @@ typedef __gnu_cxx::hash_map<uint64_t, load_balance*>::iterator route_map_it;
 class route_lb {
 public:
     //构造初始化
-    route_lb(int id):_id(id) {};
+    route_lb(int id);
 
     //agent获取一个host主机，将返回的主机结果存放在rsp中
     int get_host(int modid, int cmdid, lars::GetHostResponse &rsp);

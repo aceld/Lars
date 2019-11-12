@@ -98,8 +98,64 @@ int load_balance::pull()
 
 
 //根据dns service远程返回的结果，更新_host_map
-int load_balance::update(lars::GetRouteResponse &rsp)
+void load_balance::update(lars::GetRouteResponse &rsp)
 {
+    //确保dns service返回的结果有host信息
+    assert(rsp.host_size() != 0);
 
-    return 0;
+    std::set<uint64_t> remote_hosts;
+    std::set<uint64_t> need_delete;
+
+    //1. 插入新增的host信息 到_host_map中
+    for (int i = 0; i < rsp.host_size(); i++) {
+        //1.1 得到rsp中的一个host
+        const lars::HostInfo & h = rsp.host(i);
+
+        //1.2 得到ip+port的key值
+        uint64_t key = ((uint64_t)h.ip() << 32) + h.port();
+
+        remote_hosts.insert(key);
+
+        //1.3 如果自身的_host_map找不到当下的key，说明是新增 
+        if (_host_map.find(key) == _host_map.end()) {
+            //新增
+            host_info *hi = new host_info(h.ip(), h.port(), lb_config.init_succ_cnt);
+            if (hi == NULL) {
+                fprintf(stderr, "new host_info error!\n");
+                exit(1);
+            }
+            _host_map[key] = hi;
+
+            //新增的host信息加入到 空闲列表中
+            _idle_list.push_back(hi);
+        }
+    }
+   
+    //2. 删除减少的host信息 从_host_map中
+    //2.1 得到哪些节点需要删除
+    for (host_map_it it = _host_map.begin(); it != _host_map.end(); it++) {
+        if (remote_hosts.find(it->first) == remote_hosts.end())  {
+            //该key在host_map中存在，而在远端返回的结果集不存在，需要锁定被删除
+            need_delete.insert(it->first);
+        }
+    }
+
+    //2.2 删除
+    for (std::set<uint64_t>::iterator it = need_delete.begin();
+        it != need_delete.end(); it++)  {
+        uint64_t key = *it;
+
+        host_info *hi = _host_map[key];
+
+        if (hi->overload == true) {
+            //从过载列表中删除
+            _overload_list.remove(hi);
+        } 
+        else {
+            //从空闲列表删除
+            _idle_list.remove(hi);
+        }
+
+        delete hi;
+    }
 }

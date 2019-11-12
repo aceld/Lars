@@ -7,6 +7,9 @@ struct load_balance_config
 {
     //经过若干次获取请求host节点后，试探选择一次overload过载节点
     int probe_num; 
+
+    //初始化host_info主机信息访问成功的个数，防止刚启动时少量失败就认为过载
+    int init_succ_cnt;
 };
 
 //全局配置

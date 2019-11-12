@@ -12,8 +12,6 @@ thread_queue<lars::GetRouteRequest>* dns_queue = NULL;
 //每个Agent UDP server的 负载均衡器路由 route_lb
 route_lb * r_lb[3];
 
-
-
 static void create_route_lb()
 {
     for (int i = 0; i < 3; i++) {
@@ -29,7 +27,9 @@ static void create_route_lb()
 static void init_lb_agent()
 {
     //1. 加载配置文件
+    config_file::setPath("./conf/lars_lb_agent.conf");
     lb_config.probe_num = config_file::instance()->GetNumber("loadbalance", "probe_num", 10);
+    lb_config.init_succ_cnt = config_file::instance()->GetNumber("loadbalance", "init_succ_cnt", 180);
 
     //2. 初始化3个route_lb模块
     create_route_lb();

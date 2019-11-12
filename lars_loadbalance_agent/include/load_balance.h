@@ -37,7 +37,7 @@ public:
     int pull();
 
     //根据dns service远程返回的结果，更新_host_map
-    int update(lars::GetRouteResponse &rsp);
+    void update(lars::GetRouteResponse &rsp);
 
 
     //当前load_balance模块的状态

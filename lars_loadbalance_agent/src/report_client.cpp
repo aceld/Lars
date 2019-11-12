@@ -31,7 +31,7 @@ void new_report_request(event_loop *loop, int fd, void *args)
 
 void *report_client_thread(void* args)
 {
-    printf("report client thread start\n");
+    printf("[report] client thread start...\n");
     
     event_loop loop;
 

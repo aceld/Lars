@@ -2,6 +2,13 @@
 #include "lars.pb.h"
 
 
+//构造初始化
+route_lb::route_lb(int id):_id(id)
+{
+    pthread_mutex_init(&_mutex, NULL);
+}
+
+
 //agent获取一个host主机，将返回的主机结果存放在rsp中
 int route_lb::get_host(int modid, int cmdid, lars::GetHostResponse &rsp)
 {

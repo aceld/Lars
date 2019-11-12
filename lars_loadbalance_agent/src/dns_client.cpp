@@ -65,7 +65,6 @@ void *dns_client_thread(void* args)
     dns_queue->set_loop(&loop);
     dns_queue->set_callback(new_dns_request, &client);
 
-
     //4 设置当收到dns service回执的消息ID_GetRouteResponse处理函数
     client.add_msg_router(lars::ID_GetRouteResponse, deal_recv_route);
 
