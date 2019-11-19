@@ -24,10 +24,10 @@ int main(int argc, char **argv)
     int ret = api.get_host(modid, cmdid, ip, port);
     if (ret == 0) {
         std::cout << "host is " << ip << ":" << port << std::endl;
-        //上报调用结果
-    }
 
-   
+        //上报调用结果
+        api.report(modid, cmdid, ip, port, 0);
+    }
 
     return 0;
 }
