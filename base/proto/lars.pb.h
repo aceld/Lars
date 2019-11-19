@@ -42,7 +42,7 @@ struct TableStruct_lars_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::google::protobuf::internal::ParseTable schema[7]
+  static const ::google::protobuf::internal::ParseTable schema[8]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
@@ -68,6 +68,9 @@ extern HostCallResultDefaultTypeInternal _HostCallResult_default_instance_;
 class HostInfo;
 class HostInfoDefaultTypeInternal;
 extern HostInfoDefaultTypeInternal _HostInfo_default_instance_;
+class ReportRequest;
+class ReportRequestDefaultTypeInternal;
+extern ReportRequestDefaultTypeInternal _ReportRequest_default_instance_;
 class ReportStatusRequest;
 class ReportStatusRequestDefaultTypeInternal;
 extern ReportStatusRequestDefaultTypeInternal _ReportStatusRequest_default_instance_;
@@ -80,6 +83,7 @@ template<> ::lars::GetRouteRequest* Arena::CreateMaybeMessage<::lars::GetRouteRe
 template<> ::lars::GetRouteResponse* Arena::CreateMaybeMessage<::lars::GetRouteResponse>(Arena*);
 template<> ::lars::HostCallResult* Arena::CreateMaybeMessage<::lars::HostCallResult>(Arena*);
 template<> ::lars::HostInfo* Arena::CreateMaybeMessage<::lars::HostInfo>(Arena*);
+template<> ::lars::ReportRequest* Arena::CreateMaybeMessage<::lars::ReportRequest>(Arena*);
 template<> ::lars::ReportStatusRequest* Arena::CreateMaybeMessage<::lars::ReportStatusRequest>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -92,12 +96,13 @@ enum MessageId {
   ID_ReportStatusRequest = 3,
   ID_GetHostRequest = 4,
   ID_GetHostResponse = 5,
+  ID_ReportRequest = 6,
   MessageId_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::google::protobuf::int32>::min(),
   MessageId_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::google::protobuf::int32>::max()
 };
 bool MessageId_IsValid(int value);
 const MessageId MessageId_MIN = ID_UNKNOW;
-const MessageId MessageId_MAX = ID_GetHostResponse;
+const MessageId MessageId_MAX = ID_ReportRequest;
 const int MessageId_ARRAYSIZE = MessageId_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MessageId_descriptor();
@@ -1058,6 +1063,142 @@ class GetHostResponse final :
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_lars_2eproto;
 };
+// -------------------------------------------------------------------
+
+class ReportRequest final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:lars.ReportRequest) */ {
+ public:
+  ReportRequest();
+  virtual ~ReportRequest();
+
+  ReportRequest(const ReportRequest& from);
+
+  inline ReportRequest& operator=(const ReportRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ReportRequest(ReportRequest&& from) noexcept
+    : ReportRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ReportRequest& operator=(ReportRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const ReportRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ReportRequest* internal_default_instance() {
+    return reinterpret_cast<const ReportRequest*>(
+               &_ReportRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(ReportRequest* other);
+  friend void swap(ReportRequest& a, ReportRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ReportRequest* New() const final {
+    return CreateMaybeMessage<ReportRequest>(nullptr);
+  }
+
+  ReportRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ReportRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ReportRequest& from);
+  void MergeFrom(const ReportRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ReportRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .lars.HostInfo host = 3;
+  bool has_host() const;
+  void clear_host();
+  static const int kHostFieldNumber = 3;
+  const ::lars::HostInfo& host() const;
+  ::lars::HostInfo* release_host();
+  ::lars::HostInfo* mutable_host();
+  void set_allocated_host(::lars::HostInfo* host);
+
+  // int32 modid = 1;
+  void clear_modid();
+  static const int kModidFieldNumber = 1;
+  ::google::protobuf::int32 modid() const;
+  void set_modid(::google::protobuf::int32 value);
+
+  // int32 cmdid = 2;
+  void clear_cmdid();
+  static const int kCmdidFieldNumber = 2;
+  ::google::protobuf::int32 cmdid() const;
+  void set_cmdid(::google::protobuf::int32 value);
+
+  // int32 retcode = 4;
+  void clear_retcode();
+  static const int kRetcodeFieldNumber = 4;
+  ::google::protobuf::int32 retcode() const;
+  void set_retcode(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:lars.ReportRequest)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::lars::HostInfo* host_;
+  ::google::protobuf::int32 modid_;
+  ::google::protobuf::int32 cmdid_;
+  ::google::protobuf::int32 retcode_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_lars_2eproto;
+};
 // ===================================================================
 
 
@@ -1512,9 +1653,108 @@ inline void GetHostResponse::set_allocated_host(::lars::HostInfo* host) {
   // @@protoc_insertion_point(field_set_allocated:lars.GetHostResponse.host)
 }
 
+// -------------------------------------------------------------------
+
+// ReportRequest
+
+// int32 modid = 1;
+inline void ReportRequest::clear_modid() {
+  modid_ = 0;
+}
+inline ::google::protobuf::int32 ReportRequest::modid() const {
+  // @@protoc_insertion_point(field_get:lars.ReportRequest.modid)
+  return modid_;
+}
+inline void ReportRequest::set_modid(::google::protobuf::int32 value) {
+  
+  modid_ = value;
+  // @@protoc_insertion_point(field_set:lars.ReportRequest.modid)
+}
+
+// int32 cmdid = 2;
+inline void ReportRequest::clear_cmdid() {
+  cmdid_ = 0;
+}
+inline ::google::protobuf::int32 ReportRequest::cmdid() const {
+  // @@protoc_insertion_point(field_get:lars.ReportRequest.cmdid)
+  return cmdid_;
+}
+inline void ReportRequest::set_cmdid(::google::protobuf::int32 value) {
+  
+  cmdid_ = value;
+  // @@protoc_insertion_point(field_set:lars.ReportRequest.cmdid)
+}
+
+// .lars.HostInfo host = 3;
+inline bool ReportRequest::has_host() const {
+  return this != internal_default_instance() && host_ != nullptr;
+}
+inline void ReportRequest::clear_host() {
+  if (GetArenaNoVirtual() == nullptr && host_ != nullptr) {
+    delete host_;
+  }
+  host_ = nullptr;
+}
+inline const ::lars::HostInfo& ReportRequest::host() const {
+  const ::lars::HostInfo* p = host_;
+  // @@protoc_insertion_point(field_get:lars.ReportRequest.host)
+  return p != nullptr ? *p : *reinterpret_cast<const ::lars::HostInfo*>(
+      &::lars::_HostInfo_default_instance_);
+}
+inline ::lars::HostInfo* ReportRequest::release_host() {
+  // @@protoc_insertion_point(field_release:lars.ReportRequest.host)
+  
+  ::lars::HostInfo* temp = host_;
+  host_ = nullptr;
+  return temp;
+}
+inline ::lars::HostInfo* ReportRequest::mutable_host() {
+  
+  if (host_ == nullptr) {
+    auto* p = CreateMaybeMessage<::lars::HostInfo>(GetArenaNoVirtual());
+    host_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:lars.ReportRequest.host)
+  return host_;
+}
+inline void ReportRequest::set_allocated_host(::lars::HostInfo* host) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete host_;
+  }
+  if (host) {
+    ::google::protobuf::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      host = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, host, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  host_ = host;
+  // @@protoc_insertion_point(field_set_allocated:lars.ReportRequest.host)
+}
+
+// int32 retcode = 4;
+inline void ReportRequest::clear_retcode() {
+  retcode_ = 0;
+}
+inline ::google::protobuf::int32 ReportRequest::retcode() const {
+  // @@protoc_insertion_point(field_get:lars.ReportRequest.retcode)
+  return retcode_;
+}
+inline void ReportRequest::set_retcode(::google::protobuf::int32 value) {
+  
+  retcode_ = value;
+  // @@protoc_insertion_point(field_set:lars.ReportRequest.retcode)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

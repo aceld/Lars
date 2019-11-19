@@ -10,6 +10,7 @@ enum MessageId {
     ID_ReportStatusRequest   = 3;  //上报host调用状态信息请求消息ID
     ID_GetHostRequest        = 4;  //API 发送请求host信息给 Lb Agent模块 消息ID
     ID_GetHostResponse       = 5;  //agent 回执给 API host信息的 消息ID
+    ID_ReportRequest         = 6;  //API report get_host的调用结果给agent的 消息ID
 }
 
 enum LarsRetCode {
@@ -71,4 +72,13 @@ message GetHostResponse {
     int32 cmdid = 3;
     int32 retcode = 4;
     HostInfo host = 5;    
+}
+
+
+// API 上报调用结果给 Agent(UDP)
+message ReportRequest {
+    int32 modid = 1;
+    int32 cmdid = 2;
+    HostInfo host = 3;
+    int32 retcode = 4;
 }
