@@ -33,6 +33,7 @@ static void init_lb_agent()
     config_file::setPath("./conf/lars_lb_agent.conf");
     lb_config.probe_num = config_file::instance()->GetNumber("loadbalance", "probe_num", 10);
     lb_config.init_succ_cnt = config_file::instance()->GetNumber("loadbalance", "init_succ_cnt", 180);
+    lb_config.init_err_cnt = config_file::instance()->GetNumber("loadbalance", "init_err_cnt", 5);
     lb_config.err_rate = config_file::instance()->GetFloat("loadbalance", "err_rate", 0.1);
     lb_config.succ_rate = config_file::instance()->GetFloat("loadbalance", "succ_rate", 0.92);
     lb_config.contin_succ_limit = config_file::instance()->GetNumber("loadbalance", "contin_succ_limit", 10);

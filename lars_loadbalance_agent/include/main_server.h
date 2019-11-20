@@ -11,6 +11,9 @@ struct load_balance_config
     //初始化host_info主机信息访问成功的个数，防止刚启动时少量失败就认为过载
     int init_succ_cnt;
 
+    //当idle节点切换至over_load时的初始化失败次数，主要为了累计一定成功次数才能切换会idle
+    int init_err_cnt;
+
     //当idle节点失败率高于此值，节点变overload状态
     float err_rate;
 
