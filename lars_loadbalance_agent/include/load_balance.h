@@ -39,6 +39,12 @@ public:
     //根据dns service远程返回的结果，更新_host_map
     void update(lars::GetRouteResponse &rsp);
 
+    //上报当前host主机调用情况给远端repoter service
+    void report(int ip, int port, int retcode);
+
+    //提交host的调用结果给远程reporter service上报结果
+    void commit();
+
 
     //当前load_balance模块的状态
     enum STATUS

@@ -159,3 +159,158 @@ void load_balance::update(lars::GetRouteResponse &rsp)
         delete hi;
     }
 }
+
+
+//上报当前host主机调用情况给远端repoter service
+void load_balance::report(int ip, int port, int retcode)
+{
+    uint64_t key = ((uint64_t)ip << 32)  + port;
+
+    if (_host_map.find(key) == _host_map.end()) {
+        return;
+    }
+
+    //1 计数统计
+
+    host_info *hi = _host_map[key];
+    if (retcode == lars::RET_SUCC) { // retcode == 0
+        //更新虚拟成功、真实成功次数
+        hi->vsucc ++;
+        hi->rsucc ++;
+
+        //连续成功增加
+        hi->contin_succ ++; 
+        //连续失败次数归零
+        hi->contin_err = 0;
+    }
+    else {
+        //更新虚拟失败、真实失败次数 
+        hi->verr ++;
+        hi->rerr ++;
+
+        //连续失败个数增加
+        hi->contin_err++;
+        //连续成功次数归零
+        hi->contin_succ = 0;
+    }
+
+    //2.检查节点状态
+
+    //检查idle节点是否满足overload条件
+    //或者overload节点是否满足idle条件
+     
+    //--> 如果是dile节点,则只有调用失败才有必要判断是否达到overload条件
+    if (hi->overload == false && retcode != lars::RET_SUCC) {
+
+        bool overload = false;
+
+        //idle节点，检查是否达到判定为overload的状态条件 
+        //(1).计算失败率,如果大于预设值失败率，则为overload
+        double err_rate = hi->verr * 1.0 / (hi->vsucc + hi->verr);
+
+        if (err_rate > lb_config.err_rate) {
+            overload = true;            
+        }
+
+        //(2).连续失败次数达到阈值，判定为overload
+        if( overload == false && hi->contin_err >= (uint32_t)lb_config.contin_err_limit) {
+            overload = true;
+        }
+
+        //判定overload需要做的更改流程
+        if (overload) {
+            struct in_addr saddr;
+            
+            saddr.s_addr = htonl(hi->ip);
+            printf("[%d, %d] host %s:%d change overload, succ %u err %u\n", 
+                    _modid, _cmdid, inet_ntoa(saddr), hi->port, hi->vsucc, hi->verr);
+
+            //设置hi为overload状态 
+            hi->set_overload();
+            //移出_idle_list,放入_overload_list
+            _idle_list.remove(hi);
+            _overload_list.push_back(hi);
+            return;
+        }
+
+    }
+    //--> 如果是overload节点，则只有调用成功才有必要判断是否达到idle条件
+    else if (hi->overload == true && retcode == lars::RET_SUCC) {
+        bool idle = false;
+
+        //overload节点，检查是否达到回到idle状态的条件
+        //(1).计算成功率，如果大于预设值的成功率，则为idle
+        double succ_rate = hi->vsucc * 1.0 / (hi->vsucc + hi->verr);
+
+        if (succ_rate > lb_config.succ_rate) {
+            idle = true;
+        }
+
+        //(2).连续成功次数达到阈值，判定为idle
+        if (idle == false && hi->contin_succ >= (uint32_t)lb_config.contin_succ_limit) {
+            idle = true;
+        }
+
+        //判定为idle需要做的更改流程
+        if (idle) {
+            struct in_addr saddr;
+            saddr.s_addr = htonl(hi->ip);
+            printf("[%d, %d] host %s:%d change idle, succ %u err %u\n", 
+                    _modid, _cmdid, inet_ntoa(saddr), hi->port, hi->vsucc, hi->verr);
+
+            //设置为idle状态
+            hi->set_idle();
+            //移出overload_list, 放入_idle_list
+            _overload_list.remove(hi);
+            _idle_list.push_back(hi);
+            return;
+        }
+    }
+    
+    //TODO 窗口检查和超时机制 
+}
+
+
+//提交host的调用结果给远程reporter service上报结果
+void load_balance::commit()
+{
+    if (this->empty() == true) {
+        return;
+    }
+
+    //1. 封装请求消息
+    lars::ReportStatusRequest req;
+    req.set_modid(_modid);
+    req.set_cmdid(_cmdid);
+    req.set_ts(time(NULL));
+    req.set_caller(lb_config.local_ip);
+
+    //2. 从idle_list取值
+    for (host_list_it it = _idle_list.begin(); it != _idle_list.end(); it++) {
+        host_info *hi = *it;    
+        lars::HostCallResult call_res;
+        call_res.set_ip(hi->ip);
+        call_res.set_port(hi->port);
+        call_res.set_succ(hi->rsucc);
+        call_res.set_err(hi->rerr);
+        call_res.set_overload(false);
+    
+        req.add_results()->CopyFrom(call_res);
+    }
+
+    //3. 从over_list取值
+    for (host_list_it it = _overload_list.begin(); it != _overload_list.end(); it++) {
+        host_info *hi = *it;
+        lars::HostCallResult call_res;
+        call_res.set_ip(hi->ip);
+        call_res.set_port(hi->port);
+        call_res.set_succ(hi->rsucc);
+        call_res.set_err(hi->rerr);
+        call_res.set_overload(true);
+    
+        req.add_results()->CopyFrom(call_res);
+    }
+
+    //4 发送给report_client 的消息队列
+    report_queue->send(req);
+}
