@@ -1,11 +1,12 @@
 #pragma once
-
+#include <stdint.h>
 
 /*
  *   被代理的主机基本信息
  *
  * */
-struct host_info {
+class host_info {
+public:
     host_info(uint32_t ip, int port, uint32_t init_vsucc):
         ip(ip),
         port(port),
@@ -17,8 +18,11 @@ struct host_info {
         contin_err(0),
         overload(false)
     {
-        //host_info初始化构造函数
+
     }
+
+    void set_idle();
+    void set_overload();
 
     uint32_t ip;            //host被代理主机IP
     int port;               //host被代理主机端口
