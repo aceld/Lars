@@ -90,3 +90,28 @@ int route_lb::update_host(int modid, int cmdid, lars::GetRouteResponse &rsp)
 
     return 0;
 }
+
+
+//agent 上报某主机的获取结果
+void route_lb::report_host(lars::ReportRequest req)
+{
+    int modid = req.modid();
+    int cmdid = req.cmdid();
+    int retcode = req.retcode();
+    int ip = req.host().ip();
+    int port = req.host().port();
+    
+    uint64_t key = ((uint64_t)modid << 32) + cmdid;
+
+    pthread_mutex_lock(&_mutex);
+    if (_route_lb_map.find(key) != _route_lb_map.end()) {
+        load_balance *lb = _route_lb_map[key];
+
+        lb->report(ip, port, retcode);
+
+        //上报信息给远程reporter服务器
+        lb->commit();
+    }
+
+    pthread_mutex_unlock(&_mutex);
+}

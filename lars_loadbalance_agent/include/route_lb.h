@@ -23,6 +23,8 @@ public:
     //根据Dns Service返回的结果更新自己的route_lb_map
     int update_host(int modid, int cmdid, lars::GetRouteResponse &rsp);
 
+    //agent 上报某主机的获取结果
+    void report_host(lars::ReportRequest req);
 
 private:
     route_map _route_lb_map;  //当前route_lb下的管理的loadbalance
