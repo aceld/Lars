@@ -36,9 +36,9 @@ DROP TABLE IF EXISTS `ServerCallStatus`;
 CREATE TABLE `ServerCallStatus` (
       `modid` int(11) NOT NULL,
       `cmdid` int(11) NOT NULL,
-      `ip` int(11) NOT NULL,
-      `port` int(11) NOT NULL,
-      `caller` int(11) NOT NULL,
+      `ip` int(11) unsigned NOT NULL,
+      `port` int(11) unsigned NOT NULL,
+      `caller` int(11) unsigned NOT NULL,
       `succ_cnt` int(11) NOT NULL,
       `err_cnt` int(11) NOT NULL,
       `ts` bigint(20) NOT NULL,

@@ -48,6 +48,8 @@ void StoreReport::store(lars::ReportStatusRequest req)
                 result.succ(), result.err(), req.ts(), overload,
                 result.succ(), result.err(), req.ts(), overload);
 
+//        printf("insert sql [%s]\n", sql);
+
         mysql_ping(&_db_conn);//ping 测试一下，防止链接断开，会触发重新建立连接
 
         if (mysql_real_query(&_db_conn, sql, strlen(sql)) != 0) {
