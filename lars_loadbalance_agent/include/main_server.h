@@ -28,6 +28,15 @@ struct load_balance_config
 
     //当前agent本地ip地址(用于上报 填充caller字段)
     uint32_t local_ip;
+
+    //整个窗口的真实失败率阈值
+    float window_err_rate;
+
+    //对于某个modid/cmdid下的某个idle状态的host，需要清理一次负载信息的周期
+    int idle_timeout;
+
+    //对于某个modid/cmdid/下的某个overload状态的host，在过载队列等待的最大时间
+    int overload_timeout;
 };
 
 //全局配置

@@ -164,6 +164,9 @@ void load_balance::update(lars::GetRouteResponse &rsp)
 //上报当前host主机调用情况给远端repoter service
 void load_balance::report(int ip, int port, int retcode)
 {
+    //定义当前时间
+    long current_time = time(NULL);
+
     uint64_t key = ((uint64_t)ip << 32)  + port;
 
     if (_host_map.find(key) == _host_map.end()) {
@@ -267,7 +270,46 @@ void load_balance::report(int ip, int port, int retcode)
         }
     }
     
-    //TODO 窗口检查和超时机制 
+    // 窗口检查和超时机制 
+    if (hi->overload == false) {
+        //节点是idle状态
+        if (current_time - hi->idle_ts >= lb_config.idle_timeout) {
+            //时间窗口到达，需要对idle节点清理负载均衡数据
+            if (hi->check_window() == true)   {
+                //将此节点 设置为过载
+                struct in_addr saddr;
+                saddr.s_addr = htonl(hi->ip);
+
+                printf("[%d, %d] host %s:%d change to overload cause windows err rate too high, read succ %u, real err %u\n",
+                        _modid, _cmdid, inet_ntoa(saddr), hi->port, hi->rsucc, hi->rerr);
+
+                //设置为overload状态
+                hi->set_overload();
+                //移出_idle_list,放入_overload_list
+                _idle_list.remove(hi);
+                _overload_list.push_back(hi);
+            }
+            else {
+                //重置窗口,回复负载默认信息
+                hi->set_idle();
+            }
+        }
+    }
+    else {
+        //节点为overload状态
+        //那么处于overload的状态时间是否已经超时
+        if (current_time - hi->overload_ts >= lb_config.overload_timeout) {
+            struct in_addr saddr;
+            saddr.s_addr = htonl(hi->ip);
+            printf("[%d, %d] host %s:%d reset to idle, vsucc %u,  verr %u\n",
+                    _modid, _cmdid, inet_ntoa(saddr), hi->port, hi->vsucc, hi->verr);
+
+            hi->set_idle();
+            //移出overload_list, 放入_idle_list
+            _overload_list.remove(hi);
+            _idle_list.push_back(hi);
+        }
+    }
 }
 
 

@@ -24,6 +24,9 @@ public:
     void set_idle();
     void set_overload();
 
+    //计算整个窗口内的真实失败率，如果达到连续失败窗口值则返回true，代表需要调整状态
+    bool check_window();
+
     uint32_t ip;            //host被代理主机IP
     int port;               //host被代理主机端口
     uint32_t vsucc;         //虚拟成功次数(API反馈)，用于过载(overload)，空闲(idle)判定
@@ -34,6 +37,9 @@ public:
     uint32_t contin_err;    //连续失败次数
 
     bool overload;          //是否过载
+
+    long idle_ts;           //当前节点成为idle状态的时刻 
+    long overload_ts;       //当节点成为overload状态的时刻 
 };
 
 

@@ -20,6 +20,7 @@ typedef std::list<host_info*>::iterator host_list_it;
 class load_balance {
 public:
     load_balance(int modid, int cmdid):
+        status(PULLING),
         _modid(modid),
         _cmdid(cmdid)
     {
