@@ -21,6 +21,7 @@ class load_balance {
 public:
     load_balance(int modid, int cmdid):
         status(PULLING),
+        last_update_time(0),
         _modid(modid),
         _cmdid(cmdid)
     {
@@ -54,6 +55,8 @@ public:
         NEW      //正在创建新的load_balance模块
     };
     STATUS status;  //当前的状态
+    
+    long last_update_time; //最后更新host_map时间戳
     
 private:
 

@@ -1,11 +1,27 @@
 #include "route_lb.h"
 #include "lars.pb.h"
+#include "main_server.h"
 
 
 //构造初始化
 route_lb::route_lb(int id):_id(id)
 {
     pthread_mutex_init(&_mutex, NULL);
+}
+
+//将全部的load_balance都重置为NEW状态
+void route_lb::reset_lb_status()
+{
+    pthread_mutex_lock(&_mutex);
+    for (route_map_it it = _route_lb_map.begin();
+        it != _route_lb_map.end(); it++) {
+
+        load_balance *lb = it->second;
+        if (lb->status == load_balance::PULLING) {
+            lb->status = load_balance::NEW;
+        }
+    }
+    pthread_mutex_unlock(&_mutex);
 }
 
 
@@ -32,9 +48,13 @@ int route_lb::get_host(int modid, int cmdid, lars::GetHostResponse &rsp)
             ret = lb->choice_one_host(rsp);
             rsp.set_retcode(ret);
 
-            //TODO 超时重拉路由
+            //超时重拉路由
+            //检查是否要重新拉路由信息
+            //若路由并没有处于PULLING状态，且有效期已经超时，则重新拉取
+            if (lb->status == load_balance::NEW && time(NULL) - lb->last_update_time > lb_config.update_timeout) {
+                lb->pull();
+            }
         }
-
     }
     //3. 当前key不存在_route_lb_map中
     else {

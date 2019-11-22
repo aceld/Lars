@@ -100,6 +100,8 @@ int load_balance::pull()
 //根据dns service远程返回的结果，更新_host_map
 void load_balance::update(lars::GetRouteResponse &rsp)
 {
+    long current_time = time(NULL);
+
     //确保dns service返回的结果有host信息
     assert(rsp.host_size() != 0);
 
@@ -158,6 +160,11 @@ void load_balance::update(lars::GetRouteResponse &rsp)
 
         delete hi;
     }
+
+    //更新最后update时间
+    last_update_time = current_time;
+    //重置状态为NEW
+    status = NEW;
 }
 
 

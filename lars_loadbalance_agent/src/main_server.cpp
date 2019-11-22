@@ -41,6 +41,7 @@ static void init_lb_agent()
     lb_config.window_err_rate = config_file::instance()->GetFloat("loadbalance", "window_err_rate", 0.7);
     lb_config.idle_timeout = config_file::instance()->GetNumber("loadbalance", "idle_timeout", 15);
     lb_config.overload_timeout = config_file::instance()->GetNumber("loadbalance", "overload_timeout", 15);
+    lb_config.update_timeout = config_file::instance()->GetNumber("loadbalance", "update_timeout", 15);
 
     //2. 初始化3个route_lb模块
     create_route_lb();

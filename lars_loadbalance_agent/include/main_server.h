@@ -33,10 +33,13 @@ struct load_balance_config
     float window_err_rate;
 
     //对于某个modid/cmdid下的某个idle状态的host，需要清理一次负载信息的周期
-    int idle_timeout;
+    long idle_timeout;
 
     //对于某个modid/cmdid/下的某个overload状态的host，在过载队列等待的最大时间
-    int overload_timeout;
+    long overload_timeout;
+
+    //对于每个NEW状态的modid/cmdid，多久更新一下本地路由,秒
+    long update_timeout;
 };
 
 //全局配置

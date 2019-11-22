@@ -48,6 +48,13 @@ void deal_recv_route(const char *data, uint32_t len, int msgid, net_connection *
     r_lb[index]->update_host(modid, cmdid, rsp);
 }
 
+static void conn_init(net_connection *conn, void *args)
+{
+    for (int i = 0; i < 3; i++) {
+        r_lb[i]->reset_lb_status();
+    }
+}
+
 void *dns_client_thread(void* args)
 {
     printf("dns client thread start\n");
@@ -67,6 +74,9 @@ void *dns_client_thread(void* args)
 
     //4 设置当收到dns service回执的消息ID_GetRouteResponse处理函数
     client.add_msg_router(lars::ID_GetRouteResponse, deal_recv_route);
+
+    //5.设置链接成功/链接断开重连成功之后，通过conn_init来清理之前的任务
+    client.set_conn_start(conn_init);
 
     //启动事件监听
     loop.event_process(); 

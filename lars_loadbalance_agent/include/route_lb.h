@@ -26,6 +26,9 @@ public:
     //agent 上报某主机的获取结果
     void report_host(lars::ReportRequest req);
 
+    //将全部的load_balance都重置为NEW状态
+    void reset_lb_status();
+
 private:
     route_map _route_lb_map;  //当前route_lb下的管理的loadbalance
     pthread_mutex_t _mutex; 
