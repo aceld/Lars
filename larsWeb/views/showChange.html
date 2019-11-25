@@ -1,0 +1,30 @@
+
+
+    <div class="main_body" id="main_body">
+        <div class="breadcrub">
+            当前位置：主机调动状态>主机调动状态展示
+        </div>
+        <div class="pannel">
+            <table class="common_table">
+
+            {{if compare .errmsg ""}}
+                <tr>
+                    <th width="6%">模块ID(modid)</th>
+                    <th width="6%">子模块ID(cmdid)</th>
+                    <th width="12%">版本信息(version)</th>
+                </tr>
+                {{range .changes}}
+                    <tr>
+                        <td>{{.Modid}}</td>
+                        <td>{{.Cmdid}}</td>
+                        <td>{{.Version}}</td>
+                    </tr>
+                {{end}}
+            {{else}}
+                当前无主机调动状态
+            {{end}}
+            </table>
+
+
+        </div>
+    </div>

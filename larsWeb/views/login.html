@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+</head>
+<body>
+
+    <form  class="login_form"  name = "login" action="/login" method="post">
+        <h1 class="login_title">lars远程服务调度管理</h1>
+        <input type="text"  class="input_txt" name = "dbAddr" placeholder="mysql地址">
+        <input type="text" class="input_txt" name = "dbPort" placeholder="mysql端口号">
+        <input type="text"  class="input_txt" name = "dbUser" placeholder="mysql用户名">
+        <input type="password" name = "dbPwd" placeholder="mysql密码"   class="input_txt">
+        <input type="text"  class="input_txt" name = "dbName" placeholder="数据库名称">
+        <input type="submit" value="登 录" class="input_sub">{{.errmsg}}
+    </form>
+    <div class="login_bg"></div>
+</body>
+</html>

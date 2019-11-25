@@ -1,0 +1,45 @@
+
+<script type="text/javascript">
+    window.onload = function () {
+        $(".dels").click(function () {
+            if(!confirm("是否删除？")){
+                return false
+            }
+        })
+    }
+</script>
+
+    <div class="main_body" id="main_body">
+        <div class="breadcrub">
+            当前位置：远程主机配置
+        </div>
+        <div class="pannel">
+            <table class="common_table">
+
+            {{if compare .errmsg ""}}
+                <tr>
+                    <th width="6%">模块ID(modid)</th>
+                    <th width="6%">子模块ID(cmdid)</th>
+                    <th width="12%">主机IP(serverip)</th>
+                    <th width="7%">主机Port(serverport)</th>
+                    <th width="7%">编辑</th>
+                    <th width="7%">删除</th>
+                </tr>
+                {{range .routes}}
+                    <tr>
+                        <td>{{.Modid}}</td>
+                        <td>{{.Cmdid}}</td>
+                        <td>{{.Serverip}}</td>
+                        <td>{{.Serverport}}</td>
+                        <td><a href="/db/updateRoute?id={{.Id}}">编辑</a></td>
+                        <td><a href="/db/delete?id={{.Id}}" class="dels">删除</a></td>
+                    </tr>
+                {{end}}
+            {{else}}
+                当前无主机配置信息
+            {{end}}
+            </table>
+
+
+        </div>
+    </div>

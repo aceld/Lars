@@ -22,7 +22,12 @@ void report_status(net_connection *conn, void *user_data)
 
         result.set_succ(100);
         result.set_err(3);
-        result.set_overload(true);
+	if (i == 2) {
+        	result.set_overload(true);
+	}
+	else {
+        	result.set_overload(false);
+	}
         req.add_results()->CopyFrom(result);
     }
 

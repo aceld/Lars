@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理页面</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+</head>
+<body>
+
+    <div class="header">
+        <a href="#" class="logo fl"><img src="/static/img/logo.png" alt="logo"></a>
+        <a href="/logout" class="logout fr">退 出</a>
+    </div>
+
+    <div class="side_bar">
+        <div class="user_info">
+            <img src="/static/img/person.png" alt="张大山">
+            <p>欢迎你 <em>管理员</em></p>
+        </div>
+
+        <div class="menu_con">
+            <div class="first_menu active"><a href="javascript:;" class="icon02">远程调度管理</a></div>
+            <ul class="sub_menu show">
+                <li><a href="/db/index" class="icon031">主机调动状态</a></li>
+                <li><a href="/db/routeData" class="icon032">远程主机配置</a></li>
+                <li><a href="/db/addRouteData" class="icon033">添加远程主机配置</a></li>
+                <li><a href="/db/showRouteChange" class="icon034">展示主机更改记录</a></li>
+                <li><a href="/db/showVersion" class="icon034">当前版本信息</a></li>
+            </ul>
+        </div>
+    </div>
+
+    {{.LayoutContent}}
+</body>
+</html>

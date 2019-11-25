@@ -1,0 +1,34 @@
+
+
+    <div class="main_body" id="main_body">
+        <div class="breadcrub">
+            当前位置：添加主机配置
+        </div>
+        <div class="pannel">
+            <form action="/db/addRouteData" method="post">
+            <h3 class="review_title">添加主机配置</h3>
+            <div class="form_group">
+                <label>模块ID(modid)：</label>
+                <input type="text" class="input_txt2" name="modid" >
+            </div>
+            <div class="form_group">
+                <label>子模块ID(cmdid)：</label>
+                <input type="text" class="input_txt2" name="cmdid" >
+            </div>
+            <div class="form_group">
+                <label>主机IP(serverip)：</label>
+                <input type="text" class="input_txt2" name="serverip" >
+            </div>
+            <div class="form_group">
+                <label>主机端口号(serverport)：</label>
+                <input type="text" class="input_txt2" name="serverport" >
+            </div>
+
+            <div class="form_group indent_group line_top">
+                <input type="submit" value="添 加" class="confirm">
+                <span>{{.errmsg}}</span>
+            </div>
+        </form>
+        </div>
+</div>
+
