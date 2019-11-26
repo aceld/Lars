@@ -5,8 +5,6 @@
 
 static void get_host_cb(const char *data, uint32_t len, int msgid, net_connection *net_conn, void *user_data)
 {
-    printf("get_host_cb  is called ....\n");
-
     //解析api发送的请求包
     lars::GetHostRequest req;         
 
@@ -42,6 +40,33 @@ static void report_cb(const char *data, uint32_t len, int msgid, net_connection 
     ptr_route_lb->report_host(req);
 }
 
+static void get_route_cb(const char *data, uint32_t len, int msgid, net_connection *net_conn, void *user_data)
+{
+
+    //解析api发送的请求包
+    lars::GetRouteRequest req;         
+
+    req.ParseFromArray(data, len);
+    int modid = req.modid();
+    int cmdid = req.cmdid();
+
+    //设置回执消息
+    lars::GetRouteResponse rsp;
+    rsp.set_modid(modid);
+    rsp.set_cmdid(cmdid);
+
+    route_lb *ptr_route_lb = (route_lb*)user_data;
+    
+    //调用route_lb的获取host方法，得到rsp返回结果
+    ptr_route_lb->get_route(modid, cmdid, rsp);
+
+    //打包回执给api消息
+    std::string responseString; 
+    rsp.SerializeToString(&responseString);
+    net_conn->send_message(responseString.c_str(), responseString.size(), lars::ID_API_GetRouteResponse);
+    
+}
+
 
 void * agent_server_main(void * args)
 {
@@ -57,6 +82,9 @@ void * agent_server_main(void * args)
 
     //给server注册消息分发路由业务，针对ID_ReportRequest处理
     server.add_msg_router(lars::ID_ReportRequest, report_cb, r_lb[port-8888]);
+
+    //给server注册消息分发路由业务，针对ID_API_GetRouteRequest处理
+    server.add_msg_router(lars::ID_API_GetRouteRequest, get_route_cb, r_lb[port-8888]);
 
 
     printf("agent UDP server :port %d is started...\n", port);

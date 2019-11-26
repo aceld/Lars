@@ -44,6 +44,74 @@ lars_client::~lars_client()
     }
 }
 
+//lars 系统获取某modid/cmdid全部的hosts(route)信息
+int lars_client::get_route(int modid, int cmdid, route_set &route)
+{
+    //1. 封装请求消息
+    lars::GetRouteRequest req;
+    req.set_modid(modid);
+    req.set_cmdid(cmdid);
+
+    //2. send
+    char write_buf[4096], read_buf[80*1024];
+    //消息头
+    msg_head head;
+    head.msglen = req.ByteSizeLong();
+    head.msgid = lars::ID_API_GetRouteRequest;
+    memcpy(write_buf, &head, MESSAGE_HEAD_LEN);
+    
+    //消息体
+    req.SerializeToArray(write_buf+MESSAGE_HEAD_LEN, head.msglen);
+
+    //简单的hash来发给对应的agent udp server
+    int index = (modid + cmdid) %3;
+    int ret = sendto(_sockfd[index], write_buf, head.msglen + MESSAGE_HEAD_LEN, 0, NULL, 0);
+    if (ret == -1) {
+        perror("sendto");
+        return lars::RET_SYSTEM_ERROR;
+    }
+    
+    //3. recv
+    lars::GetRouteResponse rsp;
+
+    int message_len = recvfrom(_sockfd[index], read_buf, sizeof(read_buf), 0, NULL, NULL);
+    if (message_len == -1) {
+        perror("recvfrom");
+        return lars::RET_SYSTEM_ERROR;
+    }
+
+    //消息头
+    memcpy(&head, read_buf, MESSAGE_HEAD_LEN);
+    if (head.msgid != lars::ID_API_GetRouteResponse) {
+        fprintf(stderr, "message ID error!\n");
+        return lars::RET_SYSTEM_ERROR;
+    }
+
+    //消息体 
+    ret = rsp.ParseFromArray(read_buf + MESSAGE_HEAD_LEN, message_len - MESSAGE_HEAD_LEN);
+    if (!ret) {
+        fprintf(stderr, "message format error: head.msglen = %d, message_len = %d, message_len - MESSAGE_HEAD_LEN = %d, head msgid = %d, ID_GetHostResponse = %d\n", head.msglen, message_len, message_len-MESSAGE_HEAD_LEN, head.msgid, lars::ID_GetRouteResponse);
+        return lars::RET_SYSTEM_ERROR;
+    }
+
+    if (rsp.modid() != modid || rsp.cmdid() != cmdid) {
+        fprintf(stderr, "message format error\n");
+        return lars::RET_SYSTEM_ERROR;
+    }
+
+    //4 处理消息
+    for (int i = 0; i < rsp.host_size(); i++) {
+        const lars::HostInfo &host = rsp.host(i);
+        struct in_addr inaddr;
+        inaddr.s_addr = host.ip();
+        std::string ip = inet_ntoa(inaddr);
+        int port = host.port();
+        route.push_back(ip_port(ip,port));
+    }
+
+    return lars::RET_SUCC;
+}
+
 
 //lars 系统获取host信息 得到可用host的ip和port
 int lars_client::get_host(int modid, int cmdid, std::string &ip, int &port)
@@ -160,4 +228,5 @@ void lars_client::report(int modid, int cmdid, const std::string &ip, int port, 
         perror("sendto");
     }
 }
+
 

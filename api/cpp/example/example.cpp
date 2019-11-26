@@ -21,7 +21,16 @@ int main(int argc, char **argv)
     std::string ip; 
     int port;
 
-    int ret = api.get_host(modid, cmdid, ip, port);
+    route_set route;
+    int ret = api.get_route(modid, cmdid, route);
+    if (ret == 0) {
+        std::cout << "get route succ!" << std::endl;
+        for (route_set_it it = route.begin(); it != route.end(); it++) {
+            std::cout << "ip = " << (*it).first << ", port = " << (*it).second << std::endl;
+        }
+    }
+
+    ret = api.get_host(modid, cmdid, ip, port);
     if (ret == 0) {
         std::cout << "host is " << ip << ":" << port << std::endl;
 

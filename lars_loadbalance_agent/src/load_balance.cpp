@@ -27,6 +27,15 @@ static void get_host_from_list(lars::GetHostResponse &rsp, host_list &l)
     l.push_back(host);
 }
 
+//获取当前挂载下的全部host信息 添加到vec中
+void load_balance::get_all_hosts(std::vector<host_info*> &vec)
+{
+    for (host_map_it it = _host_map.begin(); it != _host_map.end(); it++) {
+        host_info *hi = it->second;
+        vec.push_back(hi);
+    }
+}
+
 //从两个队列中获取一个host给到上层
 int load_balance::choice_one_host(lars::GetHostResponse &rsp)
 {

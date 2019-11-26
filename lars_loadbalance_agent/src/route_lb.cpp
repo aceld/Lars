@@ -25,6 +25,60 @@ void route_lb::reset_lb_status()
 }
 
 
+//agent获取某个modid/cmdid的全部主机，将返回的主机结果存放在rsp中
+int route_lb::get_route(int modid, int cmdid, lars::GetRouteResponse &rsp)
+{
+    int ret = lars::RET_SUCC;
+
+    //1. 得到key
+    uint64_t key = ((uint64_t)modid << 32) + cmdid;
+
+    pthread_mutex_lock(&_mutex);
+    //2. 当前key已经存在_route_lb_map中
+    if (_route_lb_map.find(key) != _route_lb_map.end()) {
+        //2.1 取出对应的load_balance
+        load_balance *lb = _route_lb_map[key];
+
+        std::vector<host_info*> vec;
+        lb->get_all_hosts(vec);
+
+        for (std::vector<host_info*>::iterator it = vec.begin(); it != vec.end(); it++) {
+            lars::HostInfo host;
+            host.set_ip((*it)->ip);
+            host.set_port((*it)->port);
+            rsp.add_host()->CopyFrom(host);
+        }
+
+        //超时重拉路由
+        //检查是否要重新拉路由信息
+        //若路由并没有处于PULLING状态，且有效期已经超时，则重新拉取
+        if (lb->status == load_balance::NEW && time(NULL) - lb->last_update_time > lb_config.update_timeout) {
+            lb->pull();
+        }
+    }
+    //3. 当前key不存在_route_lb_map中
+    else {
+        //3.1 新建一个load_balance
+        load_balance *lb = new load_balance(modid, cmdid);
+        if (lb == NULL) {
+            fprintf(stderr, "no more space to create loadbalance\n");
+            exit(1);
+        }
+
+        //3.2 新建的load_balance加入到map中
+        _route_lb_map[key] = lb;
+
+        //3.3 从dns service服务拉取具体的host信息
+        lb->pull();
+
+        ret = lars::RET_NOEXIST;
+    }
+    pthread_mutex_unlock(&_mutex);
+
+    return ret;
+}
+
+
 //agent获取一个host主机，将返回的主机结果存放在rsp中
 int route_lb::get_host(int modid, int cmdid, lars::GetHostResponse &rsp)
 {

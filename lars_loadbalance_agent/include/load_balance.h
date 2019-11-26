@@ -35,6 +35,9 @@ public:
     //从当前的双队列中获取host信息
     int choice_one_host(lars::GetHostResponse &rsp);
 
+    //获取当前挂载下的全部host信息 添加到vec中
+    void get_all_hosts(std::vector<host_info*> &vec);
+
     //如果list中没有host信息，需要从远程的DNS Service发送GetRouteHost请求申请
     int pull();
 
