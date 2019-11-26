@@ -13,6 +13,9 @@ public:
     lars_client();
     ~lars_client();
 
+    //lars 系统初始化注册modid/cmdid使用(首次拉取)(初始化使用，只调用一次即可)
+    int reg_init(int modid, int cmdid);
+
     //lars 系统获取host信息 得到可用host的ip和port
     int get_host(int modid, int cmdid, std::string& ip, int &port);
 

@@ -44,6 +44,33 @@ lars_client::~lars_client()
     }
 }
 
+
+
+//lars 系统初始化注册modid/cmdid使用(首次拉取)(初始化使用，只调用一次即可)
+int lars_client::reg_init(int modid, int cmdid)
+{
+    route_set route;
+
+    int retry_cnt = 0;
+
+    while (route.empty() && retry_cnt < 3) {
+        get_route(modid, cmdid, route);
+        if (route.empty() == true) {
+            usleep(50000); // 等待50ms
+        }
+        else {
+            break;
+        }
+        ++retry_cnt;//尝试3次
+    }
+
+    if (route.empty() == true) {
+        return lars::RET_NOEXIST;//3
+    }
+
+    return lars::RET_SUCC; //0
+}
+
 //lars 系统获取某modid/cmdid全部的hosts(route)信息
 int lars_client::get_route(int modid, int cmdid, route_set &route)
 {
