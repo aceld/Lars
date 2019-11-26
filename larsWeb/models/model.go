@@ -8,6 +8,7 @@ type RouteData struct {
 	Cmdid      int
 	Serverip   int
 	Serverport int
+	IpString   string `orm:"-"`
 }
 
 func (u *RouteData) TableName() string {

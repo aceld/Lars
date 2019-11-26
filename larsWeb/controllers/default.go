@@ -5,6 +5,7 @@ import (
 	"larsWeb/models"
 	"time"
 	"fmt"
+	"larsWeb/utils"
 )
 
 type MainController struct {
@@ -90,6 +91,10 @@ func (this*MainController)ShowRouteData()  {
 		return
 	}
 
+	for k,v := range routes{
+		routes[k].IpString = utils.InetNtoA(int64(v.Serverip))
+	}
+
 	this.Data["errmsg"] = ""
 	this.Data["routes"] = routes
 	this.Layout = "layout.html"
@@ -121,9 +126,9 @@ func (this*MainController)HandleAddRoute(){
 	modid,err1 := this.GetInt("modid")
 	cmdid,err2  := this.GetInt("cmdid")
 	serverip := this.GetString("serverip")
-	serverport := this.GetString("serverport")
+	serverport,err3 := this.GetInt("serverport")
 
-	if err1 != nil || err2 != nil || serverip != "" || serverport != "" {
+	if err1 != nil || err2 != nil || serverip == "" || err3 != nil {
 		this.Data["errmsg"] = "插入数据错误,请重新填写"
 		this.Layout = "layout.html"
 		this.TplName = "add.html"
@@ -131,11 +136,12 @@ func (this*MainController)HandleAddRoute(){
 	}
 
 	//把ip转换为整型  需完善
+	ipInt := utils.InetAtoN(serverip)
 
 
-
-	if err := models.AddRoute(modid,cmdid,0,0);err != nil {
+	if err := models.AddRoute(modid,cmdid,int(ipInt),serverport);err != nil {
 		this.Data["errmsg"] = "插入数据失败,请重新填写"
+		fmt.Println("111111",err)
 		this.Layout = "layout.html"
 		this.TplName = "add.html"
 		return
@@ -161,6 +167,8 @@ func (this*MainController)ShowUpdateRoute(){
 		return
 	}
 
+	routeData.IpString = utils.InetNtoA(int64(routeData.Serverip))
+
 
 	this.Data["route"] = routeData
 	this.Layout = "layout.html"
@@ -174,18 +182,19 @@ func (this*MainController)HandleUpdate(){
 	modid,err1 := this.GetInt("modid")
 	cmdid,err2  := this.GetInt("cmdid")
 	serverip := this.GetString("serverip")
-	serverport := this.GetString("serverport")
+	serverport,err3 := this.GetInt("serverport")
 
-	if err != nil ||err1 != nil || err2 != nil || serverip != "" || serverport != "" {
+	if err != nil ||err1 != nil || err2 != nil || serverip == "" || err3 != nil {
 		this.Data["errmsg"] = "插入数据错误,请重新填写"
 		this.Redirect("/db/routeData",302)
 		return
 	}
 
 	//把ip转成整型  需完善
+	ipInt := utils.InetAtoN(serverip)
 
 
-	err = models.UpdateRoute(id,modid,cmdid,0,0)
+	err = models.UpdateRoute(id,modid,cmdid,int(ipInt),serverport)
 	fmt.Println("111",err)
 
 	this.Redirect("/db/routeData",302)

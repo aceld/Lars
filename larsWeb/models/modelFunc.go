@@ -66,7 +66,7 @@ func GetRouteById(id int)(RouteData,error){
 //更新主机信息
 func UpdateRoute(id,modid,cmdid,serverip,serverPort int)error{
 
-	return GlobalDB.Where("id = ?",id).
+	return GlobalDB.Model(new(RouteData)).Where("id = ?",id).
 		Updates(map[string]interface{}{"modid":modid,"cmdid":cmdid,"serverip":serverip,"serverport":serverPort}).Error
 }
 
