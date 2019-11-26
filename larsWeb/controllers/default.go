@@ -73,6 +73,9 @@ func (this*MainController)ShowIndex(){
 
 	for k,v := range status {
 		status[k].Time = time.Unix(int64(v.Ts),0)
+		status[k].CallerString = utils.InetNtoA(int64(v.Caller))
+		status[k].IpString = utils.InetNtoA(int64(v.Ip))
+
 	}
 
 	this.Data["errmsg"] = ""
@@ -232,4 +235,10 @@ func (this*MainController)ShowVersion(){
 	this.Data["versions"] = versions
 	this.Layout = "layout.html"
 	this.TplName = "showVersion.html"
+}
+
+
+func (this*MainController)ShowTest(){
+	this.Layout = "layout.html"
+	this.TplName = "addType.html"
 }

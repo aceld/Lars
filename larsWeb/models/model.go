@@ -46,6 +46,8 @@ type ServerCallStatus struct {
 	Ts       int `orm:"size(20)"`
 	Time     time.Time `orm:"-"`
 	Overload bool
+	CallerString string `orm:"-"`
+	IpString string 	`orm:"-"`
 }
 func (u *ServerCallStatus) TableName() string {
 	return "ServerCallStatus"

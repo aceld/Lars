@@ -30,6 +30,8 @@ func init() {
     beego.Router("/db/showRouteChange",&controllers.MainController{},"get:ShowRouteChange")
     //展示版本信息
     beego.Router("/db/showVersion",&controllers.MainController{},"get:ShowVersion")
+    //展示
+    beego.Router("/test",&controllers.MainController{},"get:ShowTest")
 }
 
 //登录校验

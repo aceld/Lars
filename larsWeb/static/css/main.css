@@ -186,7 +186,7 @@ body{
 .pannel{
 	width:96%;
 	height:600px;
-	overflow:hidden;
+	overflow:auto;
 	margin:20px auto 0;
 	background-color:#fff;
 }
