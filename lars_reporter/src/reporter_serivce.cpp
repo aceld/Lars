@@ -2,6 +2,7 @@
 #include "lars.pb.h"
 #include "store_report.h"
 #include <string>
+#include "report_logo.h"
 
 
 
@@ -64,6 +65,8 @@ void create_reportdb_threads()
 
 int main(int argc, char **argv)
 {
+    lars_report_logo(); 
+
     event_loop loop;
 
     //加载配置文件

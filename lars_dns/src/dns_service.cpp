@@ -3,6 +3,7 @@
 #include "subscribe.h"
 #include "dns_route.h"
 #include "lars.pb.h"
+#include "dns_logo.h"
 
 tcp_server *server;
 
@@ -89,6 +90,8 @@ void clear_subscribe(net_connection * conn, void *args)
 
 int main(int argc, char **argv)
 {
+    lars_dns_logo();
+
     event_loop loop;
 
     //加载配置文件
