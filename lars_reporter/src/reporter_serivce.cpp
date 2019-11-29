@@ -17,10 +17,7 @@ void get_report_status(const char *data, uint32_t len, int msgid, net_connection
     req.ParseFromArray(data, len);
 
     //将上报数据存储到db 
-#if 0
-    StoreReport sr;
-    sr.store(req);
-#endif
+
     //轮询将消息平均发送到每个线程的消息队列中
     static int index = 0;
     //将消息发送给某个线程消息队列

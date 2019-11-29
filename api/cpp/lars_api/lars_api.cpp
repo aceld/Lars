@@ -7,7 +7,7 @@
 
 lars_client::lars_client():_seqid(0)
 {
-    printf("lars_client()\n");
+ //   printf("lars_client()\n");
     //1 初始化服务器地址
     struct sockaddr_in servaddr;
     bzero(&servaddr, sizeof(servaddr));
@@ -30,14 +30,14 @@ lars_client::lars_client():_seqid(0)
             perror("connect()");
             exit(1);
         }
-        printf("connection agent udp server succ!\n");
+//        printf("connection agent udp server succ!\n");
     }
 }
 
 
 lars_client::~lars_client()
 {
-    printf("~lars_client()\n");
+//    printf("~lars_client()\n");
 
     for (int i = 0; i < 3; ++i) {
         close(_sockfd[i]);

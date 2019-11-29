@@ -48,6 +48,7 @@ int load_balance::choice_one_host(lars::GetHostResponse &rsp)
 
             //从 overload_list中选择一个已经过载的节点
             get_host_from_list(rsp, _overload_list);
+            printf("_idle_list is empty--->choice from _overload_list!!!!!!!\n");
         }
         else {
             //明确返回给API层，已经过载了
@@ -68,18 +69,17 @@ int load_balance::choice_one_host(lars::GetHostResponse &rsp)
             
             //判断访问次数是否超过probe_num阈值,超过则从overload_list取出一个
             if (_access_cnt >= lb_config.probe_num) {
-                _access_cnt = 0;
                 get_host_from_list(rsp, _overload_list);
+                struct in_addr saddr;
+                saddr.s_addr = htonl(rsp.host().ip());
+                printf("_access_cnt = %d, _probe_num = %d ---> choice from _overload_list ip = %s, port = %d!!!!\n", _access_cnt, lb_config.probe_num, inet_ntoa(saddr), rsp.host().port());
+                _access_cnt = 0;
             }
             else {
                 //正常从idle_list中选出一个节点
                 ++_access_cnt;
                 get_host_from_list(rsp, _idle_list);
             }
-
-        
-            //选择一个idle节点
-            get_host_from_list(rsp, _idle_list);
         }
     }
 
