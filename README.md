@@ -148,8 +148,8 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 4. DNSService监控MySQL，周期性将最新路由信息加载出来；
 5. Report Service将各`modid,cmdid`的各节点一段时间内的调用结果写回到MySQL，方便Web端查看、报警。
 
-## 四、快速开始
-### (1) 编译及安装
+# 四、快速开始
+## (1) 编译及安装
 **代码下载**
 ```bash
     git clone https://github.com/aceld/Lars.git
@@ -160,7 +160,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
     make
 ```
 
-### (2) 数据库配置
+## (2) 数据库配置
 **创建表**
 ```bash
     cd ./Lars/base/sql
@@ -173,8 +173,8 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 ```bash
 mysql> source ./lars_dns.sql
 ```
-### (3) 各子系统配置文档
-** lars reporter **
+## (3) 各子系统配置文档
+**lars reporter**
 > ./Lars/lars_reporter/conf/lars_reporter.conf 
 ```ini
 [reactor]
@@ -195,7 +195,7 @@ db_thread_cnt = 3
 ```
 
 
-** lars dns **
+**lars dns**
 > ./Lars/lars_dns/conf/lars_dns.conf
 ```ini
 [reactor]
@@ -212,7 +212,7 @@ db_passwd = **Your PassWord**
 db_name = lars_dns
 ```
 
-** lars LoadBalance Agent **
+**lars LoadBalance Agent**
 > ./Lars/lars_loadbalance_agent/conf/lars_lb_agent.conf
 ```ini
 [reporter]
@@ -259,7 +259,7 @@ overload_timeout=15
 update_timeout=15
 ```
 
-### (4)启动
+## (4)启动
 **启动 lars reporter serivce**
 ```bash
     cd ./Lars
@@ -284,7 +284,7 @@ update_timeout=15
     ./run_lars web
 ```
 
-### (5) Web管理端操作
+## (5) Web管理端操作
 **打开浏览器,输入web 服务的ip地址+端口号**
 ![lars_web_login.png](https://s2.ax1x.com/2019/11/29/QA8Zh4.png)
 
@@ -294,7 +294,7 @@ update_timeout=15
 **查看所有主机配置**
 ![lars_web_all_hosts.png](https://s2.ax1x.com/2019/11/29/QAJvtO.png)
 
-### (6) 模拟效果测试
+## (6) 模拟效果测试
 **启动模拟器测试**
 ```bash
     cd ./Lars
@@ -322,7 +322,7 @@ Usage ./run_lars test example ModID CmdID
 
 ```
 
-### (7)Web查看主机调用状态
+## (7)Web查看主机调用状态
 
 ![lars_web_status.png](https://s2.ax1x.com/2019/11/29/QAteVx.png)
 
