@@ -1,5 +1,5 @@
-# <img width="80px" src="https://s2.ax1x.com/2019/10/09/u4RfDf.png" /> <img width="60px" src="https://s2.ax1x.com/2019/10/09/u4yqiR.png" /> 
-<img width="100px" src="http://www.itcast.cn/2018czgw/images/logo.png" /> 
+# <img width="80px" src="https://s2.ax1x.com/2019/10/09/u4RfDf.png" /> <img width="100px" src="http://www.itcast.cn/2018czgw/images/logo.png" /> 
+
 (**L**oad balance **A**nd **R**emote service schedule **S**ystem)
 
 [![License](https://img.shields.io/badge/License-MIT%20-blue.svg)](LICENSE) [![Gitter](https://img.shields.io/badge/在线交流-Gitter-green.svg)](https://gitter.im/lars_cpp/community) [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
