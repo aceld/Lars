@@ -2,6 +2,9 @@
 (**L**oad balance **A**nd **R**emote service schedule **S**ystem)
 
 [![License](https://img.shields.io/badge/License-MIT%20-blue.svg)](LICENSE) [![Gitter](https://img.shields.io/badge/在线交流-Gitter-green.svg)](https://gitter.im/lars_cpp/community) [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
+### 开发者
+* 刘丹冰([@aceld](https://github.com/aceld))
+* 王勇进([@MrWnag](https://github.com/MrWnag))
 ---
 ### Github
 Git: https://github.com/aceld/Lars
@@ -25,7 +28,7 @@ Git: https://gitee.com/Aceld/Lars
 
 `g++`:  (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0 版本及以上
 
-# 开发技术文档及教程同步更新中...
+# 开发技术文档及教程
 [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
 
 ## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7) 
@@ -146,3 +149,12 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 3. LoadBalance Agent负责路由管理、负载均衡等核心任务，并周期性向DNSService获取最新的路由信息，周期性把各`modid,cmdid`的各节点一段时间内的调用结果传给Report Service
 4. DNSService监控MySQL，周期性将最新路由信息加载出来；
 5. Report Service将各`modid,cmdid`的各节点一段时间内的调用结果写回到MySQL，方便Web端查看、报警。
+
+## 二、快速开始
+### 编译及安装
+
+### 数据库配置
+
+### 各子系统配置文档
+
+
