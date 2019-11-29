@@ -17,6 +17,10 @@ public:
     //构造初始化
     route_lb(int id);
 
+
+    //agent获取某个modid/cmdid的全部主机，将返回的主机结果存放在rsp中
+    int get_route(int modid, int cmdid, lars::GetRouteResponse &rsp);
+
     //agent获取一个host主机，将返回的主机结果存放在rsp中
     int get_host(int modid, int cmdid, lars::GetHostResponse &rsp);
 

@@ -1,6 +1,7 @@
 #include "main_server.h"
 #include "lars.pb.h"
- #include <netdb.h>
+#include <netdb.h>
+#include "lb_agent_logo.h"
 
 //--------- 全局资源 ----------
 struct load_balance_config lb_config;
@@ -69,6 +70,8 @@ static void init_lb_agent()
 
 int main(int argc, char **argv)
 {
+    lars_lbagent_logo();
+
     //1 初始化环境
     init_lb_agent();
 
@@ -94,7 +97,6 @@ int main(int argc, char **argv)
     start_dns_client();
     
 
-    std::cout <<"done!" <<std::endl;
     while (1) {
         sleep(10);
     }

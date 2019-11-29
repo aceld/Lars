@@ -26,7 +26,8 @@ class msg_router
 {
 public:
     msg_router():_router(),_args() {
-        printf("msg_router init...\n");
+        //printf("msg_router init...\n");
+        printf(" \n");
     }  
 
     //给一个消息ID注册一个对应的回调业务函数
