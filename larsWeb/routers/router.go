@@ -4,7 +4,6 @@ import (
 	"larsWeb/controllers"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-	"larsWeb/models"
 )
 
 func init() {
@@ -50,8 +49,5 @@ func HandlerFunc(ctx*context.Context){
 
 
 	//初始化数据库
-	if err := models.InitModel(dbAddr.(string),dbPort.(string),dbUser.(string),dbPwd.(string),dbName.(string));err != nil {
-		ctx.Redirect(302,"/")
-		return
-	}
+
 }

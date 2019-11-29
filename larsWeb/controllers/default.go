@@ -14,6 +14,7 @@ type MainController struct {
 
 //展示登录页
 func (this *MainController) ShowLogin() {
+
 	this.TplName = "login.html"
 }
 
@@ -44,6 +45,11 @@ func (this*MainController)HandleLogin(){
 	this.SetSession("dbUser",dbUser)
 	this.SetSession("dbPwd",dbPwd)
 	this.SetSession("dbName",dbName)
+
+	if err := models.InitModel(dbAddr,dbPort,dbUser,dbPwd,dbName);err != nil {
+		this.Redirect("/",302)
+		return
+	}
 
 	//跳转
 	this.Redirect("/db/index",302)
