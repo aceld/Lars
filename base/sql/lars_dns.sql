@@ -46,3 +46,21 @@ CREATE TABLE `ServerCallStatus` (
       PRIMARY KEY (`modid`,`cmdid`,`ip`,`port`,`caller`),
       KEY `mlb_index` (`modid`,`cmdid`,`ip`,`port`,`caller`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ModIDConfig`;
+CREATE TABLE ModIDConfig (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `modid` int(10) unsigned NOT NULL,
+    `content` char(255) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `CmdIDConfig`;
+CREATE TABLE CmdIDConfig (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `cmdid` int(10) unsigned NOT NULL,
+    `content` char(255) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
