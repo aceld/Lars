@@ -130,10 +130,14 @@ int lars_client::get_route(int modid, int cmdid, route_set &route)
     for (int i = 0; i < rsp.host_size(); i++) {
         const lars::HostInfo &host = rsp.host(i);
         struct in_addr inaddr;
-        inaddr.s_addr = host.ip();
+        uint32_t host_ip = ntohl(host.ip());
+        inaddr.s_addr = host_ip;
         std::string ip = inet_ntoa(inaddr);
         int port = host.port();
         route.push_back(ip_port(ip,port));
+
+        ip = inet_ntoa(inaddr);
+        port = host.port();
     }
 
     return lars::RET_SUCC;
@@ -208,7 +212,9 @@ int lars_client::get_host(int modid, int cmdid, std::string &ip, int &port)
         lars::HostInfo host = rsp.host();
 
         struct in_addr inaddr;
-        inaddr.s_addr = host.ip();
+        uint32_t host_ip = ntohl(host.ip());
+        inaddr.s_addr = host_ip;
+
         ip = inet_ntoa(inaddr);
         port = host.port();
     }
@@ -234,7 +240,7 @@ void lars_client::report(int modid, int cmdid, const std::string &ip, int port, 
     //ip
     struct in_addr inaddr;
     inet_aton(ip.c_str(), &inaddr);
-    int ip_num = inaddr.s_addr;
+    int ip_num = htonl(inaddr.s_addr);
     hp->set_ip(ip_num);
     
     //port
