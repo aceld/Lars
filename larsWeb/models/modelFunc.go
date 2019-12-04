@@ -87,3 +87,67 @@ func GetAllVersion()([]RouteVersion,error){
 	}
 	return routeVersions,nil
 }
+
+//获取所有cmdid配置信息
+func GetCmdid()([]CmdIDConfig,error){
+	var cmdids []CmdIDConfig
+	err := GlobalDB.Find(&cmdids).Error
+	return cmdids,err
+}
+
+//获取所有modid配置信息
+func GetModid()([]ModIDConfig,error){
+	var modids []ModIDConfig
+	err := GlobalDB.Find(&modids).Error
+	return modids,err
+}
+
+//添加modid操作
+func AddModid(modid int,content string)error{
+	var mod ModIDConfig
+	mod.Modid = modid
+	mod.Content = content
+	return GlobalDB.Create(&mod).Error
+}
+
+//添加cmdid操作
+func AddCmdid(cmdid int,content string)error{
+	cmd := CmdIDConfig{Cmdid:cmdid,Content:content}
+	return GlobalDB.Create(&cmd).Error
+}
+
+//删除mod
+func DeleteMod(modid int)error{
+	return GlobalDB.Where("id = ?",modid).Delete(new(ModIDConfig)).Error
+}
+
+//删除cmd
+func DeleteCmd(cmdid int)error{
+	return GlobalDB.Where("id = ?",cmdid).Delete(new(CmdIDConfig)).Error
+}
+
+//根据id获取mod信息
+func GetMod(id int)ModIDConfig{
+	var mod ModIDConfig
+	GlobalDB.Where("id = ?",id).Find(&mod)
+	return mod
+}
+
+//根据id获取cmd信息
+func GetCmd(id int)CmdIDConfig{
+	var cmd CmdIDConfig
+	GlobalDB.Where("id = ?",id).Find(&cmd)
+	return cmd
+}
+
+//编辑mod
+func EditMod(modid int,content string)error{
+	return GlobalDB.Model(new(ModIDConfig)).Where("modid = ?",modid).
+		Update("content",content).Error
+}
+
+//编辑cmd
+func Editcmd(cmd int,content string)error{
+	return GlobalDB.Model(new(CmdIDConfig)).Where("cmdid = ?",cmd).
+		Update("content",content).Error
+}

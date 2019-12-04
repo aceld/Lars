@@ -1,0 +1,23 @@
+<div class="main_body" id="main_body">
+    <div class="breadcrub">
+        当前位置：编辑子模块ID(cmdid)配置
+    </div>
+    <div class="pannel">
+        <form action="/db/editMod" method="post">
+            <h3 class="review_title">编辑子模块ID(cmdid)配置</h3>
+            <div class="form_group">
+                <label>模块ID(modid)：</label>
+                <input type="text" class="input_txt2" name="modid" readonly value="{{.mod.Modid}}" >
+            </div>
+            <div class="form_group">
+                <label>模块说明：</label>
+                <input type="text" class="input_txt2" name="content" value="{{.mod.Content}}" >
+            </div>
+
+            <div class="form_group indent_group line_top">
+                <input type="submit" value="确定修改" class="confirm">
+                <span>{{.errmsg}}</span>
+            </div>
+        </form>
+    </div>
+</div>

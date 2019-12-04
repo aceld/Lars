@@ -29,8 +29,22 @@ func init() {
     beego.Router("/db/showRouteChange",&controllers.MainController{},"get:ShowRouteChange")
     //展示版本信息
     beego.Router("/db/showVersion",&controllers.MainController{},"get:ShowVersion")
-    //展示
-    beego.Router("/test",&controllers.MainController{},"get:ShowTest")
+    //子模块id
+	beego.Router("/db/cmdid",&controllers.MainController{},"get:ShowCmdid")
+	//模块id
+	beego.Router("/db/modid",&controllers.MainController{},"get:ShowModid")
+	//添加模块id
+	beego.Router("/db/addMod",&controllers.MainController{},"get:ShowAddMod;post:HandleAddMod")
+	//添加子模块id
+	beego.Router("/db/addCmd",&controllers.MainController{},"get:ShowAddCmd;post:HandleAddCmd")
+	//删除模块id
+	beego.Router("/db/deleteMod",&controllers.MainController{},"get:DeleteMod")
+	//删除模块id
+	beego.Router("/db/deleteCmd",&controllers.MainController{},"get:DeleteCmd")
+	//编辑mod
+	beego.Router("/db/editMod",&controllers.MainController{},"get:ShowEditMod;post:EditMod")
+	//编辑cmd
+	beego.Router("/db/editCmd",&controllers.MainController{},"get:ShowEditCmd;post:EditCmd")
 }
 
 //登录校验

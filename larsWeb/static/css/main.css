@@ -404,7 +404,7 @@ body{
     color:#fff;
 }
 
-.review,.edit,.addtype{
+.review,.edit,.addtype,.dels{
 	display:inline-block;
 	width:40px;
 	line-height:20px;
@@ -418,6 +418,10 @@ body{
 	width:100px;
 	line-height:26px;
 	border:0px;
+}
+
+.dels{
+	background:#25c192;
 }
 
 .edit{

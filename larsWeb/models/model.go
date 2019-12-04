@@ -54,3 +54,25 @@ func (u *ServerCallStatus) TableName() string {
 }
 
 
+type ModIDConfig struct {
+	Id int `orm:"size(10)"`
+	Modid int `orm:"size(10)"`
+	Content string
+}
+func (u *ModIDConfig) TableName() string {
+	return "ModIDConfig"
+}
+
+type CmdIDConfig struct {
+	Id int `orm:"size(10)"`
+	Cmdid int `orm:"size(10)"`
+	Content string
+}
+func (u *CmdIDConfig) TableName() string {
+	return "CmdIDConfig"
+}
+
+
+
+
+

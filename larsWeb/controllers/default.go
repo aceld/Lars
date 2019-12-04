@@ -243,8 +243,172 @@ func (this*MainController)ShowVersion(){
 	this.TplName = "showVersion.html"
 }
 
+//展示编辑cmdid页面
+func (this*MainController)ShowCmdid(){
+	//获取所有配置信息
+	cmdids ,err:= models.GetCmdid()
+	if err != nil{
+		this.Data["errmsg"] = "没有配置信息"
+	}else{
+		this.Data["errmsg"] = ""
+		this.Data["cmdids"] = cmdids
+	}
 
-func (this*MainController)ShowTest(){
 	this.Layout = "layout.html"
-	this.TplName = "addType.html"
+	this.TplName = "cmdid.html"
 }
+
+//展示编辑cmdid页面
+func (this*MainController)ShowModid(){
+
+	modids,err := models.GetModid()
+	if err != nil{
+		this.Data["errmsg"] = "没有配置信息"
+	}else{
+		this.Data["errmsg"] = ""
+		this.Data["modids"] = modids
+	}
+
+
+	this.Layout = "layout.html"
+	this.TplName = "modid.html"
+}
+
+//展示添加modid页面
+func (this*MainController)ShowAddMod(){
+	this.Layout = "layout.html"
+	this.TplName = "addMod.html"
+}
+
+//展示添加子模块id页面
+func (this*MainController)ShowAddCmd(){
+	this.Layout = "layout.html"
+	this.TplName = "addCmd.html"
+}
+
+//处理添加modid
+func (this*MainController)HandleAddMod(){
+	modid,err := this.GetInt("modid")
+	content := this.GetString("content")
+
+	if err != nil || content == "" {
+		this.Data["errmsg"] = "输入数据不完整"
+		this.ShowAddMod()
+		return
+	}else {
+		err := models.AddModid(modid,content)
+		if err != nil {
+			this.Data["errmsg"] = "输入数据错误"
+			this.ShowAddMod()
+			return
+		}
+	}
+
+	this.Redirect("/db/modid",302)
+
+}
+
+//处理添加cmdid
+func (this*MainController)HandleAddCmd(){
+	cmdid,err := this.GetInt("cmdid")
+	content := this.GetString("content")
+
+	if err != nil || content == "" {
+		this.Data["errmsg"] = "输入数据不完整"
+		this.ShowAddCmd()
+		return
+	}else {
+		err := models.AddCmdid(cmdid,content)
+		if err != nil {
+			this.Data["errmsg"] = "插入数据错误"
+			this.ShowAddCmd()
+			return
+		}
+	}
+
+	this.Redirect("/db/cmdid",302)
+}
+
+//删除modid
+func (this*MainController)DeleteMod(){
+	id,_ := this.GetInt("id")
+	models.DeleteMod(id)
+
+	this.Redirect("/db/modid",302)
+}
+
+//删除cmdid
+func (this*MainController)DeleteCmd(){
+	id,_ := this.GetInt("id")
+	models.DeleteCmd(id)
+
+	this.Redirect("/db/cmdid",302)
+}
+
+//展示添加modid页面
+func (this*MainController)ShowEditMod(){
+	id,_ :=this.GetInt("id")
+	mod := models.GetMod(id)
+
+	this.Data["mod"] = mod
+	this.Layout = "layout.html"
+	this.TplName = "editMod.html"
+}
+
+//展示添加子模块id页面
+func (this*MainController)ShowEditCmd(){
+	id,_ :=this.GetInt("id")
+	cmd := models.GetCmd(id)
+
+	this.Data["cmd"] = cmd
+	this.Layout = "layout.html"
+	this.TplName = "editCmd.html"
+}
+
+
+//编辑mod
+func (this*MainController)EditMod(){
+	modid,err := this.GetInt("modid")
+	content := this.GetString("content")
+
+	//fmt.Println(err,content)
+	if err != nil || content == "" {
+		this.Data["errmsg"] = "输入数据不完整"
+		this.ShowEditMod()
+		return
+	}else {
+		err := models.EditMod(modid,content)
+		if err != nil {
+			this.Data["errmsg"] = "输入数据错误"
+			this.ShowEditMod()
+			return
+		}
+	}
+
+	this.Redirect("/db/modid",302)
+}
+
+//编辑cmd
+func (this*MainController)EditCmd(){
+	cmdid,err := this.GetInt("cmdid")
+	content := this.GetString("content")
+
+	if err != nil || content == "" {
+		this.Data["errmsg"] = "输入数据不完整"
+		this.ShowEditCmd()
+		return
+	}else {
+		err := models.Editcmd(cmdid,content)
+		if err != nil {
+			this.Data["errmsg"] = "插入数据错误"
+			this.ShowEditCmd()
+			return
+		}
+	}
+
+	this.Redirect("/db/cmdid",302)
+}
+
+
+
+

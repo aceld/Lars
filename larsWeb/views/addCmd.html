@@ -1,0 +1,26 @@
+
+
+    <div class="main_body" id="main_body">
+        <div class="breadcrub">
+            当前位置：添加子模块ID(cmdid)配置
+        </div>
+        <div class="pannel">
+            <form action="/db/addCmd" method="post">
+            <h3 class="review_title">添加子模块ID(cmdid)配置</h3>
+            <div class="form_group">
+                <label>子模块ID(cmdid)：</label>
+                <input type="text" class="input_txt2" name="cmdid" >
+            </div>
+            <div class="form_group">
+                <label>子模块说明：</label>
+                <input type="text" class="input_txt2" name="content" >
+            </div>
+
+            <div class="form_group indent_group line_top">
+                <input type="submit" value="添 加" class="confirm">
+                <span>{{.errmsg}}</span>
+            </div>
+        </form>
+        </div>
+</div>
+
