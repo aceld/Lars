@@ -5,15 +5,21 @@ LARS_DNS_PATH="./lars_dns"
 LARS_LBAGENT_PATH="./lars_loadbalance_agent"
 LARS_WEB_PATH="./larsWeb"
 LARS_API_EXAMPLE_PATH="./api/cpp/example"
+LARS_REACTOR_QPS_TEST_PATH="./lars_reactor/example/qps_test"
 
 usage()
 {
     echo ""
     echo "=======启动子系统=========="
-    echo "Usage ./run_lars [reporter|dns|lbagent|web|test]"
+    echo "Usage ./run_lars [reporter|dns|lbagent|web|test|reactor]"
     echo
 
-    echo "=======测试工具============"
+    echo "=======Reactor测试工具============"
+    echo "Usage ./run_lars reactor server"
+    echo "Usage ./run_lars reactor qps [threadNum]"
+    echo
+
+    echo "=======LB Agent测试工具============"
     echo "Usage ./run_lars test gethost ModID CmdID"
     echo "Usage ./run_lars test getroute ModID CmdID"
     echo "Usage ./run_lars test report ModID CmdID IP Port 0|1  --- 0:SUCC, 1:OVERLOAD"
@@ -44,6 +50,14 @@ if [ "$1" = "test" ]; then
         fi
     elif [ "$2" = "qps" ]; then
         $PWD/$LARS_API_EXAMPLE_PATH/qps $3
+    fi
+elif [ "$1" = "reactor" ]; then
+    cd $LARS_REACTOR_QPS_TEST_PATH
+
+    if [ "$2" = "server" ]; then
+        ./server
+    elif [ "$2" = "qps" ]; then
+        ./client $3
     fi
 elif [ "$1" = "reporter" ]; then
     cd $LARS_REPORTER_PATH
