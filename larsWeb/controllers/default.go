@@ -156,6 +156,13 @@ func (this*MainController)HandleAddRoute(){
 		return
 	}
 
+
+    //更新修改日志和版本信息
+    err := models.InsertRouteChange(modid, cmdid)
+	fmt.Println("insert Route Change over",err)
+    err = models.UpdateVersion()
+	fmt.Println("Update Route Version over",err)
+
 	//插入成功跳转
 	this.Redirect("/db/routeData",302)
 }
@@ -205,6 +212,10 @@ func (this*MainController)HandleUpdate(){
 
 	err = models.UpdateRoute(id,modid,cmdid,int(ipInt),serverport)
 	fmt.Println("111",err)
+    err = models.InsertRouteChange(modid, cmdid)
+	fmt.Println("insert Route Change over",err)
+    err = models.UpdateVersion()
+	fmt.Println("Update Route Version over",err)
 
 	this.Redirect("/db/routeData",302)
 }

@@ -1,8 +1,10 @@
 package models
 
+
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+    "time"
 )
 
 var GlobalDB *gorm.DB
@@ -68,6 +70,21 @@ func UpdateRoute(id,modid,cmdid,serverip,serverPort int)error{
 
 	return GlobalDB.Model(new(RouteData)).Where("id = ?",id).
 		Updates(map[string]interface{}{"modid":modid,"cmdid":cmdid,"serverip":serverip,"serverport":serverPort}).Error
+}
+
+//插入RouteChange信息
+func InsertRouteChange(modid, cmdid int) error {
+    var routeChange RouteChange
+    routeChange.Modid = modid
+    routeChange.Cmdid = cmdid
+    routeChange.Version = int(time.Now().Unix())
+
+    return GlobalDB.Create(&routeChange).Error
+}
+
+//更新版本信息
+func UpdateVersion() error {
+    return GlobalDB.Model(new(RouteVersion)).Where("id = ?", 1).Updates(map[string]interface{}{"version": int(time.Now().Unix())}).Error
 }
 
 //获取远程主机修改
