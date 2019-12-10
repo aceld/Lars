@@ -13,10 +13,6 @@ Git: https://github.com/aceld/Lars
 ### 码云(Gitee)
 Git: https://gitee.com/Aceld/Lars
 
-**【Lars Golang版本移植志愿者招募中】**
-
-[QQ:158069367]  [QQ技术群: 135991862]
-
 ---
 
 
@@ -75,7 +71,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 
   集群支持高并发连接，满足海量访问量诉求
 
-![Lars-场景1.png](https://upload-images.jianshu.io/upload_images/11093205-6d98e567922e4522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Lars-场景1.png](https://ww1.yunjiexi.club/2019/12/10/5WlkQ.png)
 
 ### (2)、跨可用区同城容灾
 
@@ -92,7 +88,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
   支持跨可用区的双活容灾，实现无缝实时切换
 
 
-![Lars-场景2.png](https://upload-images.jianshu.io/upload_images/11093205-ba73631bdfd01340.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Lars-场景2.png](https://ww1.yunjiexi.club/2019/12/10/5WaZq.png)
 
 
 
@@ -114,7 +110,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 
   集群支持高并发连接，满足海量访问量诉求
 
-![Lars-场景3.png](https://upload-images.jianshu.io/upload_images/11093205-3a44e779b2663c80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Lars-场景3.png](https://ww1.yunjiexi.club/2019/12/10/5WLWC.png)
 
 ## 3) Lars系统总体架构
 
@@ -137,7 +133,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 `modid,cmdid`数据由`Mysql`管理，具体SQL脚本在`common/sql`路径下
 至于`modid,cmdid`的注册、删除可以利用Web端操作MySQL。
 
-![1-Lars-总体架构设计.png](https://upload-images.jianshu.io/upload_images/11093205-3be2300436781e0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![1-Lars-总体架构设计.png](https://ww1.yunjiexi.club/2019/12/10/5WiU4.png)
 
 
 如图，每个服务器（虚线）部署了一台LoadBalance Agent，以及多个业务服务
