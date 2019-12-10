@@ -29,9 +29,12 @@ Git: https://gitee.com/Aceld/Lars
 [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
 
 
+### PC端文档
+
 ## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7) 
 
-或关注微信公众号
+### 移动端文档
+
 ![gongzhonghao](https://ww1.yunjiexi.club/2019/12/10/5WjHX.jpg)
 
 
@@ -75,7 +78,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 
   集群支持高并发连接，满足海量访问量诉求
 
-![Lars-场景1.png](https://ww1.yunjiexi.club/2019/12/10/5WlkQ.png)
+![Lars-1.png](https://ftp.bmp.ovh/imgs/2019/12/3be0e1bd1e73523a.png)
 
 ### (2)、跨可用区同城容灾
 
@@ -92,7 +95,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
   支持跨可用区的双活容灾，实现无缝实时切换
 
 
-![Lars-场景2.png](https://ww1.yunjiexi.club/2019/12/10/5WaZq.png)
+![Lars-场景2.png](https://ftp.bmp.ovh/imgs/2019/12/bc530e9d1514ef94.png)
 
 
 
@@ -114,7 +117,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 
   集群支持高并发连接，满足海量访问量诉求
 
-![Lars-场景3.png](https://ww1.yunjiexi.club/2019/12/10/5WLWC.png)
+![Lars-场景3.png](https://ftp.bmp.ovh/imgs/2019/12/f370141ee37e00bb.png)
 
 ## 3) Lars系统总体架构
 
@@ -137,7 +140,7 @@ Lars是一个简单、易用、高性能的服务间远程调用管理、调度�
 `modid,cmdid`数据由`Mysql`管理，具体SQL脚本在`common/sql`路径下
 至于`modid,cmdid`的注册、删除可以利用Web端操作MySQL。
 
-![1-Lars-总体架构设计.png](https://ww1.yunjiexi.club/2019/12/10/5WiU4.png)
+![1-Lars-总体架构设计.png](https://ftp.bmp.ovh/imgs/2019/12/73f562dccbe08f45.png)
 
 
 如图，每个服务器（虚线）部署了一台LoadBalance Agent，以及多个业务服务
