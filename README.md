@@ -348,3 +348,19 @@ Usage ./run_lars test example ModID CmdID
 | 5 | 55.18w/s| 
 | 8 | 56.74w/s| 
 
+# Lars技术讨论社区
+
+### **微信公众号**
+![gongzhonghao](https://ww1.yunjiexi.club/2019/12/10/5WjHX.jpg)
+
+
+### **QQ资源分享**
+
+![qqqun](https://ww1.yunjiexi.club/2019/12/10/5WGTC.png)
+
+### **微信群**
+
+![weixin](https://ww1.yunjiexi.club/2019/12/10/5WmP4.png)
+
+欢迎大家加入，获取更多相关学习资料
+
