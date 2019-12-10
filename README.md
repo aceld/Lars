@@ -28,7 +28,11 @@ Git: https://gitee.com/Aceld/Lars
 # 二、开发技术文档及教程
 [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
 
+
 ## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7) 
+
+或关注微信公众号
+![gongzhonghao](https://ww1.yunjiexi.club/2019/12/10/5WjHX.jpg)
 
 
 # 三、概述：
