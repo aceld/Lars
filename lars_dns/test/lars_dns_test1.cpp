@@ -11,13 +11,15 @@ struct Option
 
     char *ip;
     short port;
+    int modid;
+    int cmdid;
 };
 
 
 Option option;
 
 void Usage() {
-    printf("Usage: ./lars_dns_test -h ip -p port\n");
+    printf("Usage: ./lars_dns_test -h ip -p port -m modid -c cmdid\n");
 }
 
 //解析命令行
@@ -30,6 +32,12 @@ void parse_option(int argc, char **argv)
         else if (strcmp(argv[i], "-p") == 0) {
             option.port = atoi(argv[i + 1]);
         }
+        else if (strcmp(argv[i], "-m") == 0) {
+            option.modid = atoi(argv[i + 1]);
+        }
+        else if (strcmp(argv[i], "-c") == 0) {
+            option.cmdid = atoi(argv[i + 1]);
+        }
     }
 
     if ( !option.ip || !option.port ) {
@@ -39,14 +47,13 @@ void parse_option(int argc, char **argv)
 
 }
 
-//typedef void (*conn_callback)(net_connection *conn, void *args);
 void on_connection(net_connection *conn, void *args) 
 {
     //发送Route信息请求
     lars::GetRouteRequest req;
 
-    req.set_modid(1);
-    req.set_cmdid(1);
+    req.set_modid(option.modid);
+    req.set_cmdid(option.cmdid);
 
     std::string requestString;
 
