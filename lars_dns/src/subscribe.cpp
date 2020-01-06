@@ -10,6 +10,8 @@ pthread_once_t SubscribeList::_once = PTHREAD_ONCE_INIT;
 
 SubscribeList::SubscribeList()
 {
+    pthread_mutex_init(&_book_list_lock, NULL);
+    pthread_mutex_init(&_push_list_lock, NULL);
 }
 
 //订阅
@@ -85,6 +87,9 @@ void push_change_task(event_loop *loop, void *args)
             if (conn != NULL) {
                 conn->send_message(responseString.c_str(), responseString.size(), lars::ID_GetRouteResponse);
             }
+
+            //当当前的fd从_push_list删除
+            SubscribeList::instance()->get_push_list()->erase(fd);
         }
     }
 }
@@ -97,16 +102,16 @@ void SubscribeList::make_publish_map(
     publish_map::iterator it;
 
     pthread_mutex_lock(&_push_list_lock);
-    //遍历_push_list 找到 online_fds匹配的数据，放到need_publish中
-    for (it = _push_list.begin(); it != _push_list.end(); it++)  {
-        //it->first 是 fd
-        //it->second 是 modid/cmdid
+    //遍历_push_list 找到 online_fds匹配的数据 放到need_publish中
+    for (it = _push_list.begin(); it != _push_list.end(); it++) {
+        //it->first --> fd, it->second --> modid/cmdid集合
         if (online_fds.find(it->first) != online_fds.end()) {
-            //匹配到
-            //当前的键值对移动到need_publish中
-            need_publish[it->first] = _push_list[it->first];
-            //当该组数据从_push_list中删除掉
-            _push_list.erase(it);
+            //当前这个fd是在线的
+            hash_set<uint64_t>::iterator st;
+            //深拷贝
+            for (st = _push_list[it->first].begin(); st != _push_list[it->first].end(); st++) {
+                need_publish[it->first].insert(*st);
+            }
         }
     }
 

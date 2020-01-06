@@ -298,7 +298,7 @@ void *check_route_changes(void *args)
     long last_load_time = time(NULL);
 
     //清空全部的RouteChange
-    Route::instance()->remove_changes(true);
+    //Route::instance()->remove_changes(true);
 
     //1 判断是否有修改
     while (true) {
@@ -325,8 +325,8 @@ void *check_route_changes(void *args)
             //推送
             SubscribeList::instance()->publish(changes);
 
-            //2.4 删除当前版本之前的修改记录
-            Route::instance()->remove_changes();
+            //TODO 2.4 删除当前版本之前的修改记录
+            //Route::instance()->remove_changes();
 
         }
         else {

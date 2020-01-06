@@ -42,6 +42,10 @@ public:
     //根据在线用户fd得到需要发布的列表
     void make_publish_map(listen_fd_set &online_fds, 
                           publish_map &need_publish);
+
+    publish_map * get_push_list() {
+        return &_push_list;
+    }
     
     
 private:
