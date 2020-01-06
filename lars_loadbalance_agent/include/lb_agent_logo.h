@@ -23,7 +23,6 @@ inline void lars_lbagent_logo()
     printf("                              __/ | \n"); 
     printf("                             |___/  \n");
     printf("\n");
-    printf("            ITCAST(https://www.itcast.cn)\n");
     printf("         ------------------------------------ \n");
     printf("\n");
 }

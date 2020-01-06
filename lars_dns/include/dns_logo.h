@@ -21,7 +21,6 @@ inline void lars_dns_logo()
     printf("               | |__| | | | \\__ \\ \n");
     printf("               |_____/|_| |_|___/ \n");
     printf("\n");
-    printf("            ITCAST(https://www.itcast.cn)\n");
     printf("         ------------------------------------ \n");
     printf("\n");
 }

@@ -23,7 +23,6 @@ inline void lars_report_logo()
     printf("                  | |\n");
     printf("                  |_|\n");
     printf("\n");
-    printf("            ITCAST(https://www.itcast.cn)\n");
     printf("         ------------------------------------ \n");
     printf("\n");
 }
