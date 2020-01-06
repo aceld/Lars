@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     if (ret != 0) {
         std::cout << "modid " << modid << ", cmdid " << cmdid << " still not exist host, after register, ret = " << ret << std::endl;
     }
+    printf("register succ!\n");
 
     //2. 获取modid/cmdid下全部的host的ip+port
     route_set route;
