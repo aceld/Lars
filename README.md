@@ -28,6 +28,10 @@ Git: https://gitee.com/Aceld/Lars
 # 二、开发技术文档及教程
 [![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
 
+* Lars教程 各版本迭代代码:
+
+https://github.com/aceld/Lars_release
+
 
 ### PC端文档
 
