@@ -368,16 +368,14 @@ Usage ./run_lars test example ModID CmdID
 # Lars技术讨论社区
 
 ### **微信公众号**
-![gongzhonghao](https://ww1.yunjiexi.club/2019/12/10/5WjHX.jpg)
+![gongzhonghao](https://s1.ax1x.com/2020/07/07/UFyUdx.th.jpg)
 
 
 ### **QQ资源分享**
 
-![qqqun](https://ww1.yunjiexi.club/2019/12/10/5WGTC.png)
+![qqqun](https://s1.ax1x.com/2020/07/07/UF6Y9S.th.png)
 
 ### **微信群**
-
-![weixin](https://ww1.yunjiexi.club/2019/12/10/5WmP4.png)
-
-欢迎大家加入，获取更多相关学习资料
+<img src="https://s1.ax1x.com/2020/07/07/UF6rNV.png" width = "200" height = "230" alt="weixin" />
+欢迎大家加入，一起学习分享
 
