@@ -26,7 +26,7 @@ Git: https://gitee.com/Aceld/Lars
 `g++`:  (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0 版本及以上
 
 # 二、开发技术文档及教程
-[![Lars详细教程](https://img.shields.io/badge/Lars详细教程-简书-red.svg)](https://www.jianshu.com/p/ca3849716cd7)
+[![Lars详细教程](https://img.shields.io/badge/Lars详细教程-语雀-green.svg)](https://www.yuque.com/aceld/wbs5h3/ggzqva)
 
 * Lars教程 各版本迭代代码:
 
@@ -37,8 +37,7 @@ https://github.com/aceld/Lars_release
 
 * 语雀[《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.yuque.com/aceld/wbs5h3/ggzqva)
 
-* 看云
-## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.kancloud.cn/aceld/lars) 
+* 看云 [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.kancloud.cn/aceld/lars) 
 
 ![封面](https://upload-images.jianshu.io/upload_images/11093205-5f0b2c8f17dee274.png?imageMogr2/auto-orient/strip|imageView2/2/w/1010/format/webp)
 
