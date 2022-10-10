@@ -35,17 +35,13 @@ https://github.com/aceld/Lars_release
 
 ### PC端文档
 
+* 语雀[《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.yuque.com/aceld/wbs5h3/ggzqva)
+
 * 看云
 ## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.kancloud.cn/aceld/lars) 
 
-* 简书
-## [《Lars-基于C++负载均衡远程服务器调度系统教程》](https://www.jianshu.com/p/ca3849716cd7) 
-
 ![封面](https://upload-images.jianshu.io/upload_images/11093205-5f0b2c8f17dee274.png?imageMogr2/auto-orient/strip|imageView2/2/w/1010/format/webp)
 
-### 移动端文档
-
-![gongzhonghao](https://ww1.yunjiexi.club/2019/12/10/5WjHX.jpg)
 
 
 # 三、概述：
