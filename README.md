@@ -362,15 +362,21 @@ Usage ./run_lars test example ModID CmdID
 
 # Lars技术讨论社区
 
-### **微信公众号**
-![gongzhonghao](https://s1.ax1x.com/2020/07/07/UFyUdx.th.jpg)
+---
+### About the author
 
+`name`：`Aceld(刘丹冰)`
 
-### **QQ资源分享**
+`mail`:
+[danbing.at@gmail.com](mailto:danbing.at@gmail.com)
 
-![qqqun](https://s1.ax1x.com/2020/07/07/UF6Y9S.th.png)
+`github`:
+[https://github.com/aceld](https://github.com/aceld)
 
-### **微信群**
-<img src="https://s1.ax1x.com/2020/07/07/UF6rNV.png" width = "200" height = "230" alt="weixin" />
-欢迎大家加入，一起学习分享
+`原创技术文章作品`:
+[https://www.yuque.com/aceld](https://www.yuque.com/aceld)
 
+### 技术讨论社区
+|  **WeChat**   | **WeChat Public Account**  | **QQ Group**  |
+|  ----  | ----  | ----  |
+| <img src="https://s1.ax1x.com/2020/07/07/UF6rNV.png" width = "150" height = "180" alt="" align=center />  | <img src="https://s1.ax1x.com/2020/07/07/UFyUdx.th.jpg" height = "150"  alt="" align=center /> | <img src="https://s1.ax1x.com/2020/07/07/UF6Y9S.th.png" width = "150" height = "150" alt="" align=center /> |
